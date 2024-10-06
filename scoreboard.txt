@@ -1,0 +1,92 @@
+let scoreboard_json = `{
+    "ST_Top10": [
+        {
+            "Player": {
+                "ID": "123",
+                "Name": "Elmo"
+            },
+            "Words": 6
+        },
+        {
+            "Player": {
+                "ID": "333",
+                "Name": "Patrick"
+            },
+            "Words": 8
+        },
+        {
+            "Player": {
+                "ID": "324",
+                "Name": "Ham Master 3000"
+            },
+            "Words": 12
+        }
+    ],
+    "EG_Top10": [
+        {
+            "Player": {
+                "ID": "123",
+                "Name": "Elmo"
+            },
+            "Words": 1
+        },
+        {
+            "Player": {
+                "ID": "333",
+                "Name": "Patrick"
+            },
+            "Words": 2
+        },
+        {
+            "Player": {
+                "ID": "324",
+                "Name": "Ham Master 3000"
+            },
+            "Words": 3
+        }
+    ],
+    "Players": [
+        {
+           "Player": {
+                "ID": "123",
+                "Name": "Elmo"
+            },
+            "ST_Stats": {
+                "TimesPlayed": 45,
+                "Words": 6
+            },
+            "EG_Stats": {
+                "TimesPlayed": 76,
+                "Words": 1
+            }
+        },
+        {
+            "Player": {
+                "ID": "333",
+                "Name": "Patrick"
+            },
+            "ST_Stats": {
+                "TimesPlayed": 23,
+                "Words": 8
+            },
+            "EG_Stats": {
+                "TimesPlayed": 34,
+                "Words": 2
+            }
+        },
+        {
+            "Player": {
+                "ID": "324",
+                "Name": "Ham Master 3000"
+            },
+            "ST_Stats": {
+                "TimesPlayed": 12,
+                "Words": 12
+            },
+            "EG_Stats": {
+                "TimesPlayed": 44,
+                "Words": 3
+            }
+        }
+    ]
+}`;
