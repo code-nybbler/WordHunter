@@ -6,17 +6,27 @@ let modes = {
 };
 
 $(document).ready(function() {
-    initializeNewBoard();
-    retrieveWordLists();
-    readLeaderboard();
+    //readLeaderboard();
     $('.bar-marker').css('left', `${100/wordCount*100}%`).css('opacity', 1);
     $('.progress-msg').text(`${wordCount}/${wordCount} words`);
     $('#mode-menu').addClass('show');
 });
 
-function retrieveWordLists() {
-    words = wordlist.split('\n').map(word => ({ 'word': word, 'stringMap': getStringMap(word), 'score': 0 }));
-    words_all = wordlist_all.split('\n').map(word => ({ 'word': word, 'stringMap': getStringMap(word), 'score': 0 }));
+function readWordlist(filePath) {
+    return fetch(filePath)
+    .then(response => response.text())
+    .then(text => {
+        return text.split('\r\n').map(word => ({ 'word': word, 'stringMap': getStringMap(word), 'score': 0 }));;
+    })
+    .catch(error => {
+        console.error("Error reading file:", error);
+    });
+}
+
+async function retrieveWordLists() {
+    wordlist = await readWordlist('./wordlist.txt');
+    words = wordlist;
+    words_all = await readWordlist('./wordlist-all.txt');
     wordCount = words.length;
 }
 
@@ -52,12 +62,13 @@ function populateBoard($board) {
     }
 }
 
-function initialize() {
+async function initialize() {
     $('.board').remove();
     $('.keyboard-key').removeClass('incorrect-key').removeClass('present-key').removeClass('correct-key');
     guesses = [];
     guesses_all = [];
-    words = wordlist.split('\n').map(word => ({ 'word': word, 'stringMap': getStringMap(word), 'score': 0 }));
+    
+    await retrieveWordLists();
 
     switch(gameMode) {
         case 1: // snare trap
