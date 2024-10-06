@@ -16,7 +16,7 @@ function readWordlist(filePath) {
     return fetch(filePath)
     .then(response => response.text())
     .then(text => {
-        return text.split('\r\n').map(word => ({ 'word': word, 'stringMap': getStringMap(word), 'score': 0 }));;
+        return text.split('\r\n').map(word => ({ 'word': `${word}`, 'stringMap': getStringMap(word), 'score': 0 }));;
     })
     .catch(error => {
         console.error("Error reading file:", error);
