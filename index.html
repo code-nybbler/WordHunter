@@ -1,0 +1,119 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha512-iQQV+nXtBlmS3XiDrtmL+9/Z+ibux+YuowJjI4rcpO7NYgTzfTOiFNm09kWtfZzEB9fQ6TwOVc8lFVWooFuD/w==" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="main.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>        
+        <script src="wordlist.txt"></script>
+        <script src="wordlist-all.txt"></script>
+        <script src="scoreboard.txt"></script>
+        <script src="wordhunter.js"></script>
+    </head>
+    <body>
+        <div class="game-container">
+            <h2>Word Hunter</h2>
+            <button type="button" class="btn btn-outline-secondary" id="mode-btn">Snare Trap</button>
+            <button type="button" class="btn btn-sm btn-outline-warning" id="scoreboard-btn">Scoreboard</button>
+            <div class="board-container">
+                <div id="confetti"></div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="bar-marker"></div>
+                    <div class="bar"></div>
+                </div>
+                <span class="progress-msg"></span>
+            </div>
+            <div class="keyboard" role="group" aria-label="Keyboard">
+                <div class="keyboard-row">
+                    <button type="button" data-key="q" aria-label="add q" aria-disabled="false" class="keyboard-key">q</button>
+                    <button type="button" data-key="w" aria-label="add w" aria-disabled="false" class="keyboard-key">w</button>
+                    <button type="button" data-key="e" aria-label="add e" aria-disabled="false" class="keyboard-key">e</button>
+                    <button type="button" data-key="r" aria-label="add r" aria-disabled="false" class="keyboard-key">r</button>
+                    <button type="button" data-key="t" aria-label="add t" aria-disabled="false" class="keyboard-key">t</button>
+                    <button type="button" data-key="y" aria-label="add y" aria-disabled="false" class="keyboard-key">y</button>
+                    <button type="button" data-key="u" aria-label="add u" aria-disabled="false" class="keyboard-key">u</button>
+                    <button type="button" data-key="i" aria-label="add i" aria-disabled="false" class="keyboard-key">i</button>
+                    <button type="button" data-key="o" aria-label="add o" aria-disabled="false" class="keyboard-key">o</button>
+                    <button type="button" data-key="p" aria-label="add p" aria-disabled="false" class="keyboard-key">p</button>
+                </div>
+                <div class="keyboard-row">
+                    <div class="spacer"></div>
+                    <button type="button" data-key="a" aria-label="add a" aria-disabled="false" class="keyboard-key">a</button>
+                    <button type="button" data-key="s" aria-label="add s" aria-disabled="false" class="keyboard-key">s</button>
+                    <button type="button" data-key="d" aria-label="add d" aria-disabled="false" class="keyboard-key">d</button>
+                    <button type="button" data-key="f" aria-label="add f" aria-disabled="false" class="keyboard-key">f</button>
+                    <button type="button" data-key="g" aria-label="add g" aria-disabled="false" class="keyboard-key">g</button>
+                    <button type="button" data-key="h" aria-label="add h" aria-disabled="false" class="keyboard-key">h</button>
+                    <button type="button" data-key="j" aria-label="add j" aria-disabled="false" class="keyboard-key">j</button>
+                    <button type="button" data-key="k" aria-label="add k" aria-disabled="false" class="keyboard-key">k</button>
+                    <button type="button" data-key="l" aria-label="add l" aria-disabled="false" class="keyboard-key">l</button>
+                    <div class="spacer"></div>
+                </div>
+                <div class="keyboard-row">
+                    <button type="button" data-key="↵" aria-label="enter" aria-disabled="true" class="keyboard-key keyboard-key-large">enter</button>
+                    <button type="button" data-key="z" aria-label="add z" aria-disabled="false" class="keyboard-key">z</button>
+                    <button type="button" data-key="x" aria-label="add x" aria-disabled="false" class="keyboard-key">x</button>
+                    <button type="button" data-key="c" aria-label="add c" aria-disabled="false" class="keyboard-key">c</button>
+                    <button type="button" data-key="v" aria-label="add v" aria-disabled="false" class="keyboard-key">v</button>
+                    <button type="button" data-key="b" aria-label="add b" aria-disabled="false" class="keyboard-key">b</button>
+                    <button type="button" data-key="n" aria-label="add n" aria-disabled="false" class="keyboard-key">n</button>
+                    <button type="button" data-key="m" aria-label="add m" aria-disabled="false" class="keyboard-key">m</button>
+                    <button type="button" data-key="←" aria-label="backspace" aria-disabled="true" class="keyboard-key keyboard-key-large">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20" class="game-icon" data-testid="icon-backspace">
+                            <path fill="#000" d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="keyboard-row">
+                    <button type="button" data-key="reset" aria-label="reset" aria-disabled="true" class="keyboard-key keyboard-key-large">reset game</button>
+                </div>
+            </div>
+            <div id="toast-msg"></div>
+            <div class="menu" id="mode-menu">
+                <button type="button" class="btn btn-outline-danger close-btn"><span style="line-height: 0;">&#215;</span></button>
+                <h3>Game Mode</h3><hr>
+                <button type="button" class="btn btn-outline-warning mode-btn" data-mode="1">Snare Trap</button>
+                <button type="button" class="btn btn-outline-warning mode-btn" data-mode="2">Elusive Goose</button>
+            </div>
+            <div class="menu" id="reset-dialog">
+                <h3>Are you sure?</h3><hr>
+                <button type="button" class="btn btn-outline-danger reset-confirm-btn">Reset Game</button>
+                <button type="button" class="btn btn-outline-light reset-cancel-btn">Cancel</button>
+            </div>
+            <div class="menu" id="player-dialog">
+                <h3>Join the scoreboard!</h3><hr>
+                <input type="text" id="player-input" placeholder="John Doe">
+                <button type="button" class="btn btn-outline-success player-submit-btn">Submit</button>
+                <button type="button" class="btn btn-outline-light player-skip-btn">Skip</button>
+            </div>
+            <div class="menu" id="scoreboard">
+                <button type="button" class="btn btn-outline-danger close-btn"><span style="line-height: 0;">&#215;</span></button>
+                <h3>Scoreboard</h3><hr>
+                <div class="scoreboard-pane" id="st-scoreboard">
+                    <h4>Snare Trap</h4>
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th style="text-align:center;">Words</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="scoreboard-pane" id="eg-scoreboard">
+                    <h4>Elusive Goose</h4>
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th style="text-align:center;">Words</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
