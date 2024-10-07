@@ -106,7 +106,7 @@ function endGame() {
                 $(this).data('letter', answerArr[idx]).text(answerArr[idx]);
             });
         });
-        $('.answer-group').show();
+        $('.answer-group').css('display', 'grid');
     }
 }
 
