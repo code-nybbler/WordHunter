@@ -46,6 +46,7 @@
     border: 2px solid #d3d6da;
     border-radius: 10px;
 }
+.answer-group { display: none; }
 .keyboard {
     height: 260px;
     width: 500px;
