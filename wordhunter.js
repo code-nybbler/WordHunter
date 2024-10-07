@@ -101,7 +101,7 @@ async function initialize() {
 function endGame() {
     if (answers.length > 0 && guesses.length > 0) {
         $('.answer-group').each(function(index) {
-            let answerArr = answers[index].split('');            
+            let answerArr = answers[index].word.split('');            
             $(this).find('.tile').each(function(idx) {
                 $(this).data('letter', answerArr[idx]).text(answerArr[idx]);
             });
