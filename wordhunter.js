@@ -1,4 +1,4 @@
-let words, words_all, scoreboard, answer, guesses = [], guesses_all = [], gameMode = 1, wordCount;
+let words, words_all, scoreboard, answers, answer, guesses, guesses_all, gameMode, wordCount;
 
 let modes = {
     '1': 'Snare Trap',
@@ -16,7 +16,7 @@ function readWordlist(filePath) {
     return fetch(filePath)
     .then(response => response.text())
     .then(text => {
-        return text.split('\r\n').map(word => ({ 'word': `${word}`, 'stringMap': getStringMap(word), 'score': 0 }));;
+        return text.split('\r\n').map(word => ({ 'word': word, 'stringMap': getStringMap(word), 'score': 0 }));;
     })
     .catch(error => {
         console.error("Error reading file:", error);
@@ -65,6 +65,7 @@ function populateBoard($board) {
 async function initialize() {
     $('.board').remove();
     $('.keyboard-key').removeClass('incorrect-key').removeClass('present-key').removeClass('correct-key');
+    answers = [];
     guesses = [];
     guesses_all = [];
     
@@ -78,6 +79,7 @@ async function initialize() {
             break;
         case 2: // elusive goose
             answer = getWord();
+            answers.push(answer);
             console.log(answer);
             $('.bar').css('width', '0');
             $('.bar-marker').css('opacity', 0);
@@ -86,6 +88,12 @@ async function initialize() {
         default: break;
     }
     initializeNewBoard();
+}
+
+function endGame() {
+    if (answers.length > 0 && guesses.length > 0) {
+        $('#stats-menu').append(answers.join('<br>')).addClass('show');
+    }
 }
 
 function setGameMode(mode) {
@@ -113,6 +121,7 @@ $(document).on('click', '#reset-dialog .reset-cancel-btn', function() {
 
 $(document).on('click', '#reset-dialog .reset-confirm-btn', function() {
     $('#reset-dialog').removeClass('show');
+    endGame();
     initialize();
 });
 
@@ -251,7 +260,8 @@ function processGuessST(guessedWord) {
 
     if (words.length <= 100) {
         // choose new word
-        answer = getWord();
+        answer = getWord();        
+        answers.push(answer);
         console.log(answer);
         // send toast
         showToast(`A word has been chosen!`);
@@ -313,6 +323,7 @@ function processGuessEG($tiles, guessedWord) {
         words = words.map(word => ({ ...word, score: getCommonCount(word, Object.values(correctLetters).join('')) })).filter(word => word.score >= Object.keys(correctLetters).length && word !== answer.word); // choose new word with same 'correct' letters, but not necessarily with the same 'present' letters
         // choose new word
         answer = getWord();
+        answers.push(answer);
         // clear guesses
         guesses = [];
         console.log(answer);
