@@ -61,6 +61,11 @@ function populateBoard($board) {
         for (let t = 0; t < 5; t++) $group.append(`<div class="tile empty-tile" data-index="${t+1}"></div>`);
         $board.append($group);
     }
+    if (gameMode === 2) {
+        let $group = $(`<div class="group answer-group"></div>`);
+        for (let t = 0; t < 5; t++) $group.append(`<div class="tile" data-index="${t+1}"></div>`);
+        $board.append($group);
+    }
 }
 
 async function initialize() {
@@ -77,6 +82,8 @@ async function initialize() {
             $('.bar').css('width', '100%');
             $('.bar-marker').css('left', `${100/wordCount*100}%`).css('opacity', 1);
             $('.progress-msg').text(`${wordCount}/${wordCount} words`);
+            let rand_char = characters[Math.floor(Math.random() * 25)];
+            $('.empty-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile');
             break;
         case 2: // elusive goose
             answer = getWord();
@@ -93,7 +100,13 @@ async function initialize() {
 
 function endGame() {
     if (answers.length > 0 && guesses.length > 0) {
-        $('#stats-menu').append(answers.map(ans => ans.word).join('<br>')).addClass('show');
+        $('.answer-group').each(function(index) {
+            let answerArr = answers[index].split('');            
+            $(this).find('.tile').each(function(idx) {
+                $(this).data('letter', answerArr[idx]).text(answerArr[idx]);
+            });
+        });
+        $('.answer-group').show();
     }
 }
 
@@ -122,7 +135,6 @@ $(document).on('click', '#reset-dialog .reset-cancel-btn', function() {
 
 $(document).on('click', '#reset-dialog .reset-confirm-btn', function() {
     $('#reset-dialog').removeClass('show');
-    endGame();
     initialize();
 });
 
