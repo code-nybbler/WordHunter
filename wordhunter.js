@@ -10,6 +10,7 @@ $(document).ready(function() {
     $('.bar-marker').css('left', `${100/wordCount*100}%`).css('opacity', 1);
     $('.progress-msg').text(`${wordCount}/${wordCount} words`);
     $('#mode-menu').addClass('show');
+    setGameMode(1);
 });
 
 function readWordlist(filePath) {
@@ -168,10 +169,12 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
     } else {
         // handle empty input
     }
+    endGame();
 });
 
 $(document).on('click', '#player-dialog .player-skip-btn', function() {
     $('#player-dialog').removeClass('show');
+    endGame();
 });
 
 $(document).on('click', '#scoreboard-btn', function() {
