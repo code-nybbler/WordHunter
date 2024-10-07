@@ -91,8 +91,9 @@ async function initialize() {
 }
 
 function endGame() {
+    let answersStr = answers.join('<br>');
     if (answers.length > 0 && guesses.length > 0) {
-        $('#stats-menu').append(answers.join('<br>')).addClass('show');
+        $('#stats-menu').append(answersStr).addClass('show');
     }
 }
 
