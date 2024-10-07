@@ -91,6 +91,7 @@ async function initialize() {
 }
 
 function endGame() {
+    debugger;
     let answersStr = answers.join('<br>');
     if (answers.length > 0 && guesses.length > 0) {
         $('#stats-menu').append(answersStr).addClass('show');
@@ -255,7 +256,7 @@ function processGuess($tiles, guessedWord) {
 
 function processGuessST(guessedWord) {
     // filter and sort wordlist
-    words = words.map(word => ({ ...word, score: getCommonCount(word, guessedWord) })).filter(word => word.score < 2); //.sort((w1, w2) => w1.score - w2.score);
+    words = words.map(word => ({ ...word, score: getCommonCount(word, guessedWord) })).filter(word => word.score < 2);
     $('.progress-msg').text(`${words.length}/${wordCount} words`);
     console.log(words);
 
@@ -281,8 +282,9 @@ function processGuessEG($tiles, guessedWord) {
     let letters = guessedWord.split('').map((l, idx) => ({ 'index': idx, 'letter': l, 'marked': false }));
 
     for (let c = 0; c < answerArr.length; c++) {
-        let match = letters.find(l => l.letter === answerArr[c] && !l.marked);        
-        
+        let match = letters.find((l, idx) => l.letter === answerArr[c] && !l.marked && idx === c); // find in guess at same index
+        if (match === undefined) match = letters.find(l => l.letter === answerArr[c] && !l.marked); // find anywhere in guess
+
         if (match !== undefined) {
             let $key = $(`.keyboard-key[data-key="${match.letter}"]`);
             if (match.index === c) { // correct
