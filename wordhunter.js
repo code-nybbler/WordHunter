@@ -34,12 +34,14 @@ async function retrieveWordLists() {
 }
 
 function populateScoreboard() {
+    $('#st-scoreboard table tbody').empty();
     for (let place in scoreboard.ST_Top10) {
         let placement = scoreboard.ST_Top10[place];
         let player = placement.Player;
         let words = placement.Words;
         $('#st-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td style="text-align:center;">${words}</td></tr>`);
     }
+    $('#eg-scoreboard table tbody').empty();
     for (let place in scoreboard.EG_Top10) {
         let placement = scoreboard.EG_Top10[place];
         let player = placement.Player;
@@ -189,6 +191,7 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
         scoreboard.ST_Top10 = scoreboard.Players.sort((p1, p2) => p1.ST_Stats.Words - p2.ST_Stats.Words).map(p => ({ 'Player': p.Player, 'Words': p.ST_Stats.Words })).slice(0, 10);
         scoreboard.EG_Top10 = scoreboard.Players.sort((p1, p2) => p1.EG_Stats.Words - p2.EG_Stats.Words).map(p => ({ 'Player': p.Player, 'Words': p.EG_Stats.Words })).slice(0, 10);
         populateScoreboard();
+        $('#scoreboard').addClass('show');
 
         // send request to update scoreboard
         let flowURL = 'https://prod-175.westus.logic.azure.com:443/workflows/da7be3f7e0374a6aa1c200d4ae6730f7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dmIrVanj-WdaSVYRRrJnyqBIXafgN1aBxQUrMCU2Lag';
