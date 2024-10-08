@@ -185,8 +185,8 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
             });
         }
         
-        scoreboard.ST_Top10 = scoreboard.Players.sort((p1, p2) => p1.ST_Stats.Words - p2.ST_Stats.Words).slice(0, 10);
-        scoreboard.EG_Top10 = scoreboard.Players.sort((p1, p2) => p1.EG_Stats.Words - p2.EG_Stats.Words).slice(0, 10);
+        scoreboard.ST_Top10 = scoreboard.Players.sort((p1, p2) => p1.ST_Stats.Words - p2.ST_Stats.Words).map(p => ({ 'Player': p.Player, 'Words': p.ST_Stats.Words })).slice(0, 10);
+        scoreboard.EG_Top10 = scoreboard.Players.sort((p1, p2) => p1.EG_Stats.Words - p2.EG_Stats.Words).map(p => ({ 'Player': p.Player, 'Words': p.EG_Stats.Words })).slice(0, 10);
         populateScoreboard();
 
         // send request to update scoreboard
