@@ -229,16 +229,16 @@ $(document).on('click', '.keyboard-key', function() {
     let key = $(this).data('key');
     switch (key) {
         case '↵': // enter
-            if ($('.filled-tile').length > 0 && $('.filled-tile').length % 5 === 0 && gameMode === 0) submitGuess($('.filled-tile').last().closest('.group').find('.tile'));
+            if ($('.filled-tile').length > 0 && $('.filled-tile').length % 5 === 0 && gameStatus === 0) submitGuess($('.filled-tile').last().closest('.group').find('.tile'));
             break;
         case '←': // backspace
-            if (gameMode === 0) $('.editable-tile').last().data('letter', '').text('').removeClass('editable-tile').addClass('empty-tile');
+            if (gameStatus === 0) $('.editable-tile').last().data('letter', '').text('').removeClass('editable-tile').addClass('empty-tile');
             break;
         case 'reset': // reset
             $('#reset-dialog').addClass('show');
             break;
         default: // character
-            if (($('.editable-tile').length === 0 || $('.empty-tile').length % 5 !== 0) && gameMode === 0) $('.empty-tile').first().data('letter', key).text(key).removeClass('empty-tile').addClass('filled-tile').addClass('editable-tile');
+            if (($('.editable-tile').length === 0 || $('.empty-tile').length % 5 !== 0) && gameStatus === 0) $('.empty-tile').first().data('letter', key).text(key).removeClass('empty-tile').addClass('filled-tile').addClass('editable-tile');
             break;
     }
 });
