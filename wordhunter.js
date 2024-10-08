@@ -199,7 +199,7 @@ $(document).on('click', '.keyboard-key', function() {
     let key = $(this).data('key');
     switch (key) {
         case '↵': // enter
-            if ($('.filled-tile').length > 0 && $('.filled-tile').length % 5 === 0) submitGuess($('.filled-tile').last().closest('.group').find('.tile').removeClass('filled-tile'));
+            if ($('.filled-tile').length > 0 && $('.filled-tile').length % 5 === 0) submitGuess($('.filled-tile').last().closest('.group').find('.tile'));
             break;
         case '←': // backspace
             $('.editable-tile').last().data('letter', '').text('').removeClass('editable-tile').addClass('empty-tile');
@@ -374,7 +374,6 @@ function submitGuess($tiles) {
         $tiles.each(function() { $(this).addClass('editable-tile'); });        
     } else if (gameMode === 1 && words.find(word => word.word === guessedWord) === undefined) {
         showToast('Word is not in the wordlist!');
-        debugger;
         $tiles.each(function() { if (!$(this).hasClass('starter-tile')) $(this).addClass('editable-tile'); });
     } else {
         $tiles.each(function() { $(this).removeClass('editable-tile').addClass('submitted-tile'); });
