@@ -99,11 +99,9 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
         req.onreadystatechange = function () {
             if (this.readyState === 4) {
                 req.onreadystatechange = null;
-                if (this.status === 200) {
+                if (this.status === 202) {
                     let result = JSON.parse(this.response);                    
                     showToast('Scoreboard updated!');
-                } else {
-                    console.log(this.statusText);
                 }
             }
         };
@@ -184,26 +182,8 @@ async function initialize() {
             $('.progress-msg').text(`${wordCount}/${wordCount} words`);
             break;
         case 2: // elusive goose
-            answer = {
-                "word": "sassy",
-                "stringMap": new Map([
-                    [
-                        "s",
-                        3
-                    ],
-                    [
-                        "a",
-                        1
-                    ],
-                    [
-                        "y",
-                        1
-                    ]
-                ]),
-                "score": 0
-            }; //getWord();
+            answer = getWord();
             answers.push(answer);
-            console.log(answer);
             $('.bar').css('width', '0');
             $('.bar-marker').css('opacity', 0);
             $('.progress-msg').text('');
@@ -346,13 +326,11 @@ function processGuessST(guessedWord) {
     // filter and sort wordlist
     words = words.map(word => ({ ...word, score: getCommonCount(word, guessedWord) })).filter(word => word.score < 2);
     $('.progress-msg').text(`${words.length}/${wordCount} words`);
-    console.log(words);
 
     if (words.length <= 100) {
         // choose new word
         answer = getWord();        
         answers.push(answer);
-        console.log(answer);
         // send toast
         showToast(`A word has been chosen!`);
         gameMode = 1.5;
@@ -371,17 +349,11 @@ function processGuessEG($tiles, guessedWord) {
 
     for (let c = 0; c < answerArr.length; c++) {
         let match = letters.find((l, idx) => l.letter === answerArr[c] && !l.marked && idx === c); // find in guess at same index
-        //if (match === undefined) match = letters.find(l => l.letter === answerArr[c] && !l.marked); // find anywhere in guess
 
         if (match !== undefined) {
             let $key = $(`.keyboard-key[data-key="${match.letter}"]`);
-            //if (match.index === c) { // correct
-                $tiles.eq(match.index).addClass('correct-tile');
-                $key.removeClass('present-key').addClass('correct-key');
-            /*} else { // present
-                $tiles.eq(match.index).addClass('present-tile');
-                if (!$key.hasClass('correct-key')) $key.addClass('present-key');
-            }*/
+            $tiles.eq(match.index).addClass('correct-tile');
+            $key.removeClass('present-key').addClass('correct-key');
             match.marked = true;
         }
     }
@@ -429,7 +401,6 @@ function processGuessEG($tiles, guessedWord) {
         answers.push(answer);
         // clear guesses
         guesses = [];
-        console.log(answer);
         // send toast
         showToast(`The answer changed!`);
         // re-color keyboard
