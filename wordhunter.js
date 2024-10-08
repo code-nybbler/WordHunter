@@ -249,7 +249,7 @@ $(document).on('click', '.keyboard-key', function() {
             break;
         default: // character
             if (($('.editable-tile').length === 0 || $('.empty-tile').length % 5 !== 0) && gameStatus === 0) {
-                let $selectedTile = $('.selected-tile').length > 0 ? $('.selected-tile').first() : $('.active-tile').first();
+                let $selectedTile = $('.selected-tile').length > 0 ? $('.selected-tile').first() : $('.empty-tile').first();
                 $selectedTile.data('letter', key).text(key).removeClass('empty-tile').removeClass('selected-tile').addClass('filled-tile').addClass('editable-tile');
             }
             break;
