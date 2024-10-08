@@ -1,11 +1,8 @@
+let characters = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ];
+let modes = { '1': 'Snare Trap', '2': 'Elusive Goose' };
 let words, words_all, scoreboard,
 answers, answer, guesses, guesses_all,
 gameMode, wordCount, gameStatus;
-
-let modes = {
-    '1': 'Snare Trap',
-    '2': 'Elusive Goose'
-};
 
 $(document).ready(function() {
     readScoreboard();
@@ -14,124 +11,6 @@ $(document).ready(function() {
     $('#mode-menu').addClass('show');
     setGameMode(1);
 });
-
-function readWordlist(filePath) {
-    return fetch(filePath)
-    .then(response => response.text())
-    .then(text => {
-        return text.split('\r\n').map(word => ({ 'word': word, 'stringMap': getStringMap(word), 'score': 0 }));;
-    })
-    .catch(error => {
-        console.error("Error reading file:", error);
-    });
-}
-
-async function retrieveWordLists() {
-    wordlist = await readWordlist('./wordlist.txt');
-    words = wordlist;
-    words_all = await readWordlist('./wordlist-all.txt');
-    wordCount = words.length;
-}
-
-function populateScoreboard() {
-    $('#st-scoreboard table tbody').empty();
-    for (let place in scoreboard.ST_Top10) {
-        let placement = scoreboard.ST_Top10[place];
-        let player = placement.Player;
-        let words = placement.Words;
-        $('#st-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td style="text-align:center;">${words}</td></tr>`);
-    }
-    $('#eg-scoreboard table tbody').empty();
-    for (let place in scoreboard.EG_Top10) {
-        let placement = scoreboard.EG_Top10[place];
-        let player = placement.Player;
-        let words = placement.Words;
-        $('#eg-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td style="text-align:center;">${words}</td></tr>`);
-    }
-}
-
-function readScoreboard() {
-    $.ajax({
-        type: "GET",
-        url: "https://prod-56.westus.logic.azure.com:443/workflows/7534300353cb48ad892f6741046aeab8/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=JS-U_mvyGe_-PXwesvCPE7DA0oASww0h6h7D1RXM47Q",
-        success: function(data) {
-            scoreboard = data;
-            populateScoreboard();
-        }
-    });
-}
-
-function initializeNewBoard() {
-    $('.board-container').append('<div class="board"></div>');
-    populateBoard($('.board').last());
-    let boards = document.querySelectorAll('.board');
-    boards[boards.length - 1].scrollIntoView({behavior: 'smooth'});
-}
-
-function populateBoard($board) {
-    let rows = gameMode === 2 ? 3 : 6;
-    for (let g = 0; g < rows; g++) {
-        let $group = $(`<div class="group"></div>`);
-        for (let t = 0; t < 5; t++) $group.append(`<div class="tile empty-tile ${g === 0 ? 'active-tile' : ''}" data-index="${t+1}"></div>`);
-        $board.append($group);
-    }
-
-    if (gameMode === 1) {
-        let rand_char = characters[Math.floor(Math.random() * 25)];
-        $('.active-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile').addClass('starter-tile');
-    } else {
-        let $group = $(`<div class="group answer-group"></div>`);
-        for (let t = 0; t < 5; t++) $group.append(`<div class="tile" data-index="${t+1}"></div>`);
-        $board.append($group);
-    }
-}
-
-async function initialize() {
-    $('.board').remove();
-    $('.keyboard-key').removeClass('incorrect-key').removeClass('present-key').removeClass('correct-key');
-    answers = [];
-    guesses = [];
-    guesses_all = [];
-    gameStatus = 0;
-    
-    await retrieveWordLists();
-
-    switch(gameMode) {
-        case 1: // snare trap
-            $('.bar').css('width', '100%');
-            $('.bar-marker').css('left', `${100/wordCount*100}%`).css('opacity', 1);
-            $('.progress-msg').text(`${wordCount}/${wordCount} words`);
-            break;
-        case 2: // elusive goose
-            answer = getWord();
-            answers.push(answer);
-            console.log(answer);
-            $('.bar').css('width', '0');
-            $('.bar-marker').css('opacity', 0);
-            $('.progress-msg').text('');
-            break;
-        default: break;
-    }
-    initializeNewBoard();
-}
-
-function endGame(status) { // -1 : lose, 0 : active, 1 : win
-    if (answers.length > 0 && guesses.length > 0) {
-        $('.answer-group').each(function(index) {
-            let answerArr = answers[index].word.split('');            
-            $(this).find('.tile').each(function(idx) {
-                $(this).data('letter', answerArr[idx]).text(answerArr[idx]);
-            });
-        });
-        $('.answer-group').css('display', 'grid');
-    }
-}
-
-function setGameMode(mode) {
-    gameMode = mode;
-    initialize();
-    $('#mode-btn').text(modes[gameMode]).css('opacity', 1);
-}
 
 $(document).on('click', '#mode-menu .mode-btn', function() {
     setGameMode($(this).data('mode'));
@@ -271,7 +150,6 @@ $(document).on('click', '.keyboard-key', function() {
     }
 });
 
-let characters = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ];
 $(document).on('keyup', function(e) {
     let code = e.keyCode || e.which;
     if (code === 8 || code === 13 || (code >= 65 && code <= 90)) {
@@ -289,26 +167,146 @@ $(document).on('keyup', function(e) {
     }
 });
 
-function getStringMap(str) {
-    const map = new Map();
-    for (let char of str) {
-        if (map.has(char)) map.set(char, map.get(char) + 1);
-        else map.set(char, 1);
+async function initialize() {
+    $('.board').remove();
+    $('.keyboard-key').removeClass('incorrect-key').removeClass('present-key').removeClass('correct-key');
+    answers = [];
+    guesses = [];
+    guesses_all = [];
+    gameStatus = 0;
+    
+    await retrieveWordLists();
+
+    switch(gameMode) {
+        case 1: // snare trap
+            $('.bar').css('width', '100%');
+            $('.bar-marker').css('left', `${100/wordCount*100}%`).css('opacity', 1);
+            $('.progress-msg').text(`${wordCount}/${wordCount} words`);
+            break;
+        case 2: // elusive goose
+            answer = getWord();
+            answers.push(answer);
+            console.log(answer);
+            $('.bar').css('width', '0');
+            $('.bar-marker').css('opacity', 0);
+            $('.progress-msg').text('');
+            break;
+        default: break;
     }
-    return map;
-};
+    initializeNewBoard();
+}
 
-function getCommonCount(word1, guessedWord) {
-    const map1 = word1.stringMap;
-    const map2 = getStringMap(guessedWord);
-    let commonCount = 0;
+function setGameMode(mode) {
+    gameMode = mode;
+    initialize();
+    $('#mode-btn').text(modes[gameMode]).css('opacity', 1);
+}
 
-    for (let k of map1.keys()) {
-        if (map2.has(k)) commonCount += Math.min(map1.get(k), map2.get(k));
+function endGame(status) { // -1 : lose, 0 : active, 1 : win
+    if (answers.length > 0 && guesses.length > 0) {
+        $('.answer-group').each(function(index) {
+            let answerArr = answers[index].word.split('');            
+            $(this).find('.tile').each(function(idx) {
+                $(this).data('letter', answerArr[idx]).text(answerArr[idx]);
+            });
+        });
+        $('.answer-group').css('display', 'grid');
+    }
+}
+
+async function retrieveWordLists() {
+    wordlist = await readWordlist('./wordlist.txt');
+    words = wordlist;
+    words_all = await readWordlist('./wordlist-all.txt');
+    wordCount = words.length;
+}
+
+async function readWordlist(filePath) {
+    return fetch(filePath)
+    .then(response => response.text())
+    .then(text => {
+        return text.split('\r\n').map(word => ({ 'word': word, 'stringMap': getStringMap(word), 'score': 0 }));;
+    })
+    .catch(error => {
+        console.error("Error reading file:", error);
+    });
+}
+
+function initializeNewBoard() {
+    $('.board-container').append('<div class="board"></div>');
+    populateBoard($('.board').last());
+    let boards = document.querySelectorAll('.board');
+    boards[boards.length - 1].scrollIntoView({behavior: 'smooth'});
+}
+
+function populateBoard($board) {
+    let rows = gameMode === 2 ? 3 : 6;
+    for (let g = 0; g < rows; g++) {
+        let $group = $(`<div class="group"></div>`);
+        for (let t = 0; t < 5; t++) $group.append(`<div class="tile empty-tile ${g === 0 ? 'active-tile' : ''}" data-index="${t+1}"></div>`);
+        $board.append($group);
     }
 
-    return commonCount;
-};
+    if (gameMode === 1) {
+        let rand_char = characters[Math.floor(Math.random() * 25)];
+        $('.active-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile').addClass('starter-tile');
+    } else {
+        let $group = $(`<div class="group answer-group"></div>`);
+        for (let t = 0; t < 5; t++) $group.append(`<div class="tile" data-index="${t+1}"></div>`);
+        $board.append($group);
+    }
+}
+
+function readScoreboard() {
+    $.ajax({
+        type: "GET",
+        url: "https://prod-56.westus.logic.azure.com:443/workflows/7534300353cb48ad892f6741046aeab8/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=JS-U_mvyGe_-PXwesvCPE7DA0oASww0h6h7D1RXM47Q",
+        success: function(data) {
+            scoreboard = data;
+            populateScoreboard();
+        }
+    });
+}
+
+function populateScoreboard() {
+    $('#st-scoreboard table tbody').empty();
+    for (let place in scoreboard.ST_Top10) {
+        let placement = scoreboard.ST_Top10[place];
+        let player = placement.Player;
+        let words = placement.Words;
+        $('#st-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td style="text-align:center;">${words}</td></tr>`);
+    }
+    $('#eg-scoreboard table tbody').empty();
+    for (let place in scoreboard.EG_Top10) {
+        let placement = scoreboard.EG_Top10[place];
+        let player = placement.Player;
+        let words = placement.Words;
+        $('#eg-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td style="text-align:center;">${words}</td></tr>`);
+    }
+}
+
+function submitGuess($tiles) {
+    let letters = [];
+    $tiles.each(function() { letters.push($(this).data('letter')); });
+    let guessedWord = letters.join('');
+
+    if (guesses.includes(guessedWord)) {
+        showToast('Word was already guessed!');
+        $tiles.each(function() { $(this).addClass('editable-tile'); });
+    } else if (gameMode !== 1 && words_all.find(word => word.word === guessedWord) === undefined) {
+        showToast('Word is not in the wordlist!');
+        $tiles.each(function() { $(this).addClass('editable-tile'); });        
+    } else if (gameMode === 1 && words.find(word => word.word === guessedWord) === undefined) {
+        showToast('Word is not in the wordlist!');
+        $tiles.each(function() { if (!$(this).hasClass('starter-tile')) $(this).addClass('editable-tile'); });
+    } else {
+        $tiles.each(function() { $(this).removeClass('editable-tile').addClass('submitted-tile'); });
+        processGuess($tiles, guessedWord);
+        $('.empty-tile').slice(0, 5).each(function() {
+            $(this).addClass('active-tile');
+        });
+    }
+}
 
 function processGuess($tiles, guessedWord) {
     // add guess to arrays
@@ -356,17 +354,28 @@ function processGuessEG($tiles, guessedWord) {
 
     for (let c = 0; c < answerArr.length; c++) {
         let match = letters.find((l, idx) => l.letter === answerArr[c] && !l.marked && idx === c); // find in guess at same index
-        if (match === undefined) match = letters.find(l => l.letter === answerArr[c] && !l.marked); // find anywhere in guess
+        //if (match === undefined) match = letters.find(l => l.letter === answerArr[c] && !l.marked); // find anywhere in guess
 
         if (match !== undefined) {
             let $key = $(`.keyboard-key[data-key="${match.letter}"]`);
-            if (match.index === c) { // correct
+            //if (match.index === c) { // correct
                 $tiles.eq(match.index).addClass('correct-tile');
                 $key.removeClass('present-key').addClass('correct-key');
-            } else { // present
+            /*} else { // present
                 $tiles.eq(match.index).addClass('present-tile');
                 if (!$key.hasClass('correct-key')) $key.addClass('present-key');
-            }            
+            }*/
+            match.marked = true;
+        }
+    }
+
+    for (let c = 0; c < answerArr.length; c++) {
+        let match = letters.find(l => l.letter === answerArr[c] && !l.marked); // find anywhere in guess
+
+        if (match !== undefined) {
+            let $key = $(`.keyboard-key[data-key="${match.letter}"]`);
+            $tiles.eq(match.index).addClass('present-tile');
+            if (!$key.hasClass('correct-key')) $key.addClass('present-key');
             match.marked = true;
         }
     }
@@ -420,33 +429,31 @@ function processGuessEG($tiles, guessedWord) {
     } else $('.bar').css('width', `${(Object.keys(presentLetters).length + Object.keys(correctLetters).length*2)/10*100}%`);
 }
 
-function submitGuess($tiles) {
-    let letters = [];
-    $tiles.each(function() { letters.push($(this).data('letter')); });
-    let guessedWord = letters.join('');
-
-    if (guesses.includes(guessedWord)) {
-        showToast('Word was already guessed!');
-        $tiles.each(function() { $(this).addClass('editable-tile'); });
-    } else if (gameMode !== 1 && words_all.find(word => word.word === guessedWord) === undefined) {
-        showToast('Word is not in the wordlist!');
-        $tiles.each(function() { $(this).addClass('editable-tile'); });        
-    } else if (gameMode === 1 && words.find(word => word.word === guessedWord) === undefined) {
-        showToast('Word is not in the wordlist!');
-        $tiles.each(function() { if (!$(this).hasClass('starter-tile')) $(this).addClass('editable-tile'); });
-    } else {
-        $tiles.each(function() { $(this).removeClass('editable-tile').addClass('submitted-tile'); });
-        processGuess($tiles, guessedWord);
-        $('.empty-tile').slice(0, 5).each(function() {
-            $(this).addClass('active-tile');
-        });
-    }
-}
-
 function getWord() {
     let index = Math.floor(Math.random() * words.length);
     return words[index];
 }
+
+function getStringMap(str) {
+    const map = new Map();
+    for (let char of str) {
+        if (map.has(char)) map.set(char, map.get(char) + 1);
+        else map.set(char, 1);
+    }
+    return map;
+};
+
+function getCommonCount(word1, guessedWord) {
+    const map1 = word1.stringMap;
+    const map2 = getStringMap(guessedWord);
+    let commonCount = 0;
+
+    for (let k of map1.keys()) {
+        if (map2.has(k)) commonCount += Math.min(map1.get(k), map2.get(k));
+    }
+
+    return commonCount;
+};
 
 function showToast(text) {
     $('#toast-msg').text(text).addClass('show');
