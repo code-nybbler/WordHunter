@@ -61,7 +61,11 @@ function populateBoard($board) {
         for (let t = 0; t < 5; t++) $group.append(`<div class="tile empty-tile" data-index="${t+1}"></div>`);
         $board.append($group);
     }
-    if (gameMode === 2) {
+    
+    if (gameMode === 1) {
+        let rand_char = characters[Math.floor(Math.random() * 25)];
+        $('.empty-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile');
+    } else {
         let $group = $(`<div class="group answer-group"></div>`);
         for (let t = 0; t < 5; t++) $group.append(`<div class="tile" data-index="${t+1}"></div>`);
         $board.append($group);
@@ -82,9 +86,6 @@ async function initialize() {
             $('.bar').css('width', '100%');
             $('.bar-marker').css('left', `${100/wordCount*100}%`).css('opacity', 1);
             $('.progress-msg').text(`${wordCount}/${wordCount} words`);
-            let rand_char = characters[Math.floor(Math.random() * 25)];
-            console.log(rand_char);
-            $('.empty-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile');
             break;
         case 2: // elusive goose
             answer = getWord();

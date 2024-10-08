@@ -47,6 +47,7 @@
     border-radius: 10px;
 }
 .answer-group { display: none; }
+.answer-group .tile { background-color: #6aaa64; color: #fff; }
 .keyboard {
     height: 260px;
     width: 500px;
