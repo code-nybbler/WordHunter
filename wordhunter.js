@@ -8,7 +8,7 @@ let modes = {
 };
 
 $(document).ready(function() {
-    readLeaderboard();
+    readScoreboard();
     $('.bar-marker').css('left', `${100/wordCount*100}%`).css('opacity', 1);
     $('.progress-msg').text(`${wordCount}/${wordCount} words`);
     $('#mode-menu').addClass('show');
@@ -33,25 +33,28 @@ async function retrieveWordLists() {
     wordCount = words.length;
 }
 
-function readLeaderboard() {
+function populateScoreboard() {
+    for (let place in scoreboard.ST_Top10) {
+        let placement = scoreboard.ST_Top10[place];
+        let player = placement.Player;
+        let words = placement.Words;
+        $('#st-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td style="text-align:center;">${words}</td></tr>`);
+    }
+    for (let place in scoreboard.EG_Top10) {
+        let placement = scoreboard.EG_Top10[place];
+        let player = placement.Player;
+        let words = placement.Words;
+        $('#eg-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td style="text-align:center;">${words}</td></tr>`);
+    }
+}
+
+function readScoreboard() {
     debugger;
     $.ajax({
         type: "GET",
         url: "https://prod-56.westus.logic.azure.com:443/workflows/7534300353cb48ad892f6741046aeab8/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=JS-U_mvyGe_-PXwesvCPE7DA0oASww0h6h7D1RXM47Q",
         success: function(data) {
-            scoreboard = data;
-            for (let place in scoreboard.ST_Top10) {
-                let placement = scoreboard.ST_Top10[place];
-                let player = placement.Player;
-                let words = placement.Words;
-                $('#st-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td style="text-align:center;">${words}</td></tr>`);
-            }
-            for (let place in scoreboard.EG_Top10) {
-                let placement = scoreboard.EG_Top10[place];
-                let player = placement.Player;
-                let words = placement.Words;
-                $('#eg-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td style="text-align:center;">${words}</td></tr>`);
-            }
+            scoreboard = data;            
         }
     });
 }
@@ -182,13 +185,14 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
                  }
             });
         }
-        debugger;
+        populateScoreboard();
+        // send request to update scoreboard
         $.ajax({
             type: "POST",
             url: "https://prod-175.westus.logic.azure.com:443/workflows/da7be3f7e0374a6aa1c200d4ae6730f7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dmIrVanj-WdaSVYRRrJnyqBIXafgN1aBxQUrMCU2Lag",
             data: JSON.stringify(scoreboard),
             success: function(data) {
-                console.log(data);
+                showToast('Scoreboard updated!');
             }
         });
     } else {
