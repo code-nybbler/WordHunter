@@ -242,7 +242,10 @@ $(document).on('click', '.keyboard-key', function() {
             if ($('.filled-tile').length > 0 && $('.filled-tile').length % 5 === 0 && gameStatus === 0) submitGuess($('.filled-tile').last().closest('.group').find('.tile'));
             break;
         case '←': // backspace
-            if (gameStatus === 0) $('.editable-tile').last().data('letter', '').text('').removeClass('editable-tile').addClass('empty-tile');
+            if (gameStatus === 0) {
+                let $selectedTile = $('.selected-tile').length > 0 ? $('.selected-tile').first() : $('.editable-tile').last();
+                $selectedTile.data('letter', '').text('').removeClass('editable-tile').addClass('empty-tile');
+            }
             break;
         case 'reset': // reset
             $('#reset-dialog').addClass('show');
