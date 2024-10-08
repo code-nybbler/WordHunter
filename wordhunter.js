@@ -374,6 +374,7 @@ function submitGuess($tiles) {
         $tiles.each(function() { $(this).addClass('editable-tile'); });        
     } else if (gameMode === 1 && words.find(word => word.word === guessedWord) === undefined) {
         showToast('Word is not in the wordlist!');
+        debugger;
         $tiles.each(function() { if (!$(this).hasClass('starter-tile')) $(this).addClass('editable-tile'); });
     } else {
         $tiles.each(function() { $(this).removeClass('editable-tile').addClass('submitted-tile'); });
