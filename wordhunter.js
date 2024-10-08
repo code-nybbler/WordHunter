@@ -171,29 +171,37 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
             // add player
             scoreboard.Players.push({
                 "Player": {
-                     "ID": scoreboard.Players.length,
-                     "Name": playerName.toString()
-                 },
-                 "ST_Stats": {
-                     "TimesPlayed": [1, 1.5].includes(gameMode) ? 1 : 0,
-                     "Words": [1, 1.5].includes(gameMode) ? guesses_all.length : 0
-                 },
-                 "EG_Stats": {
-                     "TimesPlayed": gameMode === 2 ? 1 : 0,
-                     "Words": gameMode === 2 ? guesses_all.length : 0
-                 }
+                    "ID": scoreboard.Players.length,
+                    "Name": playerName.toString()
+                },
+                "ST_Stats": {
+                    "TimesPlayed": [1, 1.5].includes(gameMode) ? 1 : 0,
+                    "Words": [1, 1.5].includes(gameMode) ? guesses_all.length : 0
+                },
+                "EG_Stats": {
+                    "TimesPlayed": gameMode === 2 ? 1 : 0,
+                    "Words": gameMode === 2 ? guesses_all.length : 0
+                }
             });
         }
         populateScoreboard();
         // send request to update scoreboard
-        $.ajax({
-            type: "POST",
-            url: "https://prod-175.westus.logic.azure.com:443/workflows/da7be3f7e0374a6aa1c200d4ae6730f7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dmIrVanj-WdaSVYRRrJnyqBIXafgN1aBxQUrMCU2Lag",
-            data: JSON.stringify(scoreboard),
-            success: function() {
-                showToast('Scoreboard updated!');
+        let flowURL = 'https://prod-175.westus.logic.azure.com:443/workflows/da7be3f7e0374a6aa1c200d4ae6730f7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dmIrVanj-WdaSVYRRrJnyqBIXafgN1aBxQUrMCU2Lag';
+        let req = new XMLHttpRequest();
+        req.open("POST", flowURL, true);
+        req.setRequestHeader("Content-Type", "application/json");
+        req.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                req.onreadystatechange = null;
+                if (this.status === 200) {
+                    let result = JSON.parse(this.response);                    
+                    showToast('Scoreboard updated!');
+                } else {
+                    console.log(this.statusText);
+                }
             }
-        });
+        };
+        req.send(JSON.stringify(scoreboard));
     } else {
         // handle empty input
     }
