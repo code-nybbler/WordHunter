@@ -138,6 +138,16 @@ $(document).on('click', '#mode-menu .mode-btn', function() {
     $('#mode-menu').removeClass('show');
 });
 
+$(document).on('click', '.empty-tile', function() {
+    $('.selected-tile').removeClass('selected-tile');
+    $(this).addClass('selected-tile');
+});
+
+$(document).on('click', '.editable-tile', function() {
+    $('.selected-tile').removeClass('selected-tile');
+    $(this).addClass('selected-tile');
+});
+
 $(document).on('click', '.menu .close-btn', function() {
     $(this).closest('.menu').removeClass('show');
 });
@@ -238,7 +248,10 @@ $(document).on('click', '.keyboard-key', function() {
             $('#reset-dialog').addClass('show');
             break;
         default: // character
-            if (($('.editable-tile').length === 0 || $('.empty-tile').length % 5 !== 0) && gameStatus === 0) $('.empty-tile').first().data('letter', key).text(key).removeClass('empty-tile').addClass('filled-tile').addClass('editable-tile');
+            if (($('.editable-tile').length === 0 || $('.empty-tile').length % 5 !== 0) && gameStatus === 0) {
+                let $selectedTile = $('.selected-tile').length > 0 ? $('.selected-tile').first() : $('.empty-tile').first();
+                $selectedTile.data('letter', key).text(key).removeClass('empty-tile').removeClass('selected-tile').addClass('filled-tile').addClass('editable-tile');
+            }
             break;
     }
 });
