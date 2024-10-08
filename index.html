@@ -65,7 +65,8 @@
                     </button>
                 </div>
                 <div class="keyboard-row">
-                    <button type="button" data-key="reset" aria-label="reset" aria-disabled="true" class="keyboard-key keyboard-key-large">reset game</button>
+                    <button type="button" data-key="reset" aria-label="reset" aria-disabled="true" class="keyboard-key keyboard-key-large btn-outline-danger">reset game</button>
+                    <button type="button" data-key="giveup" aria-label="give up" aria-disabled="true" class="keyboard-key keyboard-key-large btn-outline-danger">give up</button>
                 </div>
             </div>
             <div id="toast-msg"></div>
@@ -79,6 +80,11 @@
                 <h3>Are you sure?</h3><hr>
                 <button type="button" class="btn btn-outline-danger reset-confirm-btn">Reset Game</button>
                 <button type="button" class="btn btn-outline-light reset-cancel-btn">Cancel</button>
+            </div>
+            <div class="menu" id="lose-dialog">
+                <h3>Are you sure?</h3><hr>
+                <button type="button" class="btn btn-outline-danger giveup-confirm-btn">Yeah, I give up.</button>
+                <button type="button" class="btn btn-outline-light giveup-cancel-btn">Cancel</button>
             </div>
             <div class="menu" id="player-dialog">
                 <h3>Join the scoreboard!</h3><hr>

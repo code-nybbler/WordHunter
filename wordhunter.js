@@ -115,7 +115,7 @@ async function initialize() {
     initializeNewBoard();
 }
 
-function endGame() {
+function endGame(status) { // -1 : lose, 0 : active, 1 : win
     if (answers.length > 0 && guesses.length > 0) {
         $('.answer-group').each(function(index) {
             let answerArr = answers[index].word.split('');            
@@ -163,6 +163,15 @@ $(document).on('click', '#reset-dialog .reset-cancel-btn', function() {
 $(document).on('click', '#reset-dialog .reset-confirm-btn', function() {
     $('#reset-dialog').removeClass('show');
     initialize();
+});
+
+$(document).on('click', '#lose-dialog .giveup-cancel-btn', function() {
+    $('#lose-dialog').removeClass('show');
+});
+
+$(document).on('click', '#lose-dialog .giveup-confirm-btn', function() {
+    $('#lose-dialog').removeClass('show');
+    endGame(-1);
 });
 
 $(document).on('click', '#player-dialog .player-submit-btn', function() {
@@ -223,12 +232,12 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
     } else {
         // handle empty input
     }
-    endGame();
+    endGame(1);
 });
 
 $(document).on('click', '#player-dialog .player-skip-btn', function() {
     $('#player-dialog').removeClass('show');
-    endGame();
+    endGame(1);
 });
 
 $(document).on('click', '#scoreboard-btn', function() {
@@ -249,6 +258,9 @@ $(document).on('click', '.keyboard-key', function() {
             break;
         case 'reset': // reset
             $('#reset-dialog').addClass('show');
+            break;
+        case 'giveup': // give up
+            $('#lose-dialog').addClass('show');
             break;
         default: // character
             if (($('.editable-tile').length === 0 || $('.empty-tile').length % 5 !== 0) && gameStatus === 0) {
