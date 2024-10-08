@@ -244,7 +244,7 @@ $(document).on('click', '.keyboard-key', function() {
         case '←': // backspace
             if (gameStatus === 0) {
                 let $selectedTile = $('.selected-tile').length > 0 ? $('.selected-tile').first() : $('.editable-tile').last();
-                $selectedTile.data('letter', '').text('').removeClass('editable-tile').addClass('empty-tile');
+                $selectedTile.data('letter', '').text('').removeClass('editable-tile').removeClass('selected-tile').addClass('empty-tile');
             }
             break;
         case 'reset': // reset
