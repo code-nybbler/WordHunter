@@ -46,8 +46,13 @@
     border: 2px solid #d3d6da;
     border-radius: 10px;
 }
-.answer-group { display: none; }
-.answer-group .tile { background-color: #6aaa64; color: #fff; }
+.answer-group {
+    display: none;
+    border: 2px solid green;
+    padding: 2px;
+    border-radius: 10px;
+}
+.answer-group .tile { border-color: #6aaa64; }
 .keyboard {
     height: 260px;
     width: 500px;

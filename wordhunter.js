@@ -61,10 +61,10 @@ function populateBoard($board) {
         for (let t = 0; t < 5; t++) $group.append(`<div class="tile empty-tile" data-index="${t+1}"></div>`);
         $board.append($group);
     }
-    
+
     if (gameMode === 1) {
         let rand_char = characters[Math.floor(Math.random() * 25)];
-        $('.empty-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile');
+        $('.empty-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile');
     } else {
         let $group = $(`<div class="group answer-group"></div>`);
         for (let t = 0; t < 5; t++) $group.append(`<div class="tile" data-index="${t+1}"></div>`);
