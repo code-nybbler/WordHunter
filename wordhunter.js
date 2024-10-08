@@ -64,7 +64,7 @@ function populateBoard($board) {
 
     if (gameMode === 1) {
         let rand_char = characters[Math.floor(Math.random() * 25)];
-        $('.empty-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile');
+        $('.empty-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile');
     } else {
         let $group = $(`<div class="group answer-group"></div>`);
         for (let t = 0; t < 5; t++) $group.append(`<div class="tile" data-index="${t+1}"></div>`);
@@ -202,13 +202,13 @@ $(document).on('click', '.keyboard-key', function() {
             if ($('.filled-tile').length > 0 && $('.filled-tile').length % 5 === 0) submitGuess($('.filled-tile').last().closest('.group').find('.tile').removeClass('filled-tile'));
             break;
         case '←': // backspace
-            $('.filled-tile').last().data('letter', '').text('').removeClass('filled-tile').addClass('empty-tile');
+            $('.editable-tile').last().data('letter', '').text('').removeClass('editable-tile').addClass('empty-tile');
             break;
         case 'reset': // reset
             $('#reset-dialog').addClass('show');
             break;
         default: // character
-            if ($('.filled-tile').length === 0 || $('.empty-tile').length % 5 !== 0) $('.empty-tile').first().data('letter', key).text(key).removeClass('empty-tile').addClass('filled-tile');
+            if ($('.filled-tile').length === 0 || $('.empty-tile').length % 5 !== 0) $('.empty-tile').first().data('letter', key).text(key).removeClass('empty-tile').addClass('filled-tile').addClass('editable-tile');
             break;
     }
 });
@@ -368,13 +368,13 @@ function submitGuess($tiles) {
 
     if (guesses.includes(guessedWord)) {
         showToast('Word was already guessed!');
-        $tiles.each(function() { $(this).addClass('filled-tile'); });
+        $tiles.each(function() { $(this).addClass('editable-tile'); });
     } else if (gameMode !== 1 && words_all.find(word => word.word === guessedWord) === undefined) {
         showToast('Word is not in the wordlist!');
-        $tiles.each(function() { $(this).addClass('filled-tile'); });        
+        $tiles.each(function() { $(this).addClass('editable-tile'); });        
     } else if (gameMode === 1 && words.find(word => word.word === guessedWord) === undefined) {
         showToast('Word is not in the wordlist!');
-        $tiles.each(function() { $(this).addClass('filled-tile'); });
+        $tiles.each(function() { $(this).addClass('editable-tile'); });
     } else {
         $tiles.each(function() { $(this).addClass('submitted-tile'); });
         processGuess($tiles, guessedWord);
