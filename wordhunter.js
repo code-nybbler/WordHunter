@@ -72,13 +72,13 @@ function populateBoard($board) {
     let rows = gameMode === 2 ? 3 : 6;
     for (let g = 0; g < rows; g++) {
         let $group = $(`<div class="group"></div>`);
-        for (let t = 0; t < 5; t++) $group.append(`<div class="tile empty-tile" data-index="${t+1}"></div>`);
+        for (let t = 0; t < 5; t++) $group.append(`<div class="tile empty-tile ${g === 0 ? 'active-tile' : ''}" data-index="${t+1}"></div>`);
         $board.append($group);
     }
 
     if (gameMode === 1) {
         let rand_char = characters[Math.floor(Math.random() * 25)];
-        $('.empty-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile').addClass('starter-tile');
+        $('.active-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile').addClass('starter-tile');
     } else {
         let $group = $(`<div class="group answer-group"></div>`);
         for (let t = 0; t < 5; t++) $group.append(`<div class="tile" data-index="${t+1}"></div>`);
@@ -138,7 +138,7 @@ $(document).on('click', '#mode-menu .mode-btn', function() {
     $('#mode-menu').removeClass('show');
 });
 
-$(document).on('click', '.empty-tile', function() {
+$(document).on('click', '.active-tile', function() {
     $('.selected-tile').removeClass('selected-tile');
     $(this).addClass('selected-tile');
 });
@@ -249,7 +249,7 @@ $(document).on('click', '.keyboard-key', function() {
             break;
         default: // character
             if (($('.editable-tile').length === 0 || $('.empty-tile').length % 5 !== 0) && gameStatus === 0) {
-                let $selectedTile = $('.selected-tile').length > 0 ? $('.selected-tile').first() : $('.empty-tile').first();
+                let $selectedTile = $('.selected-tile').length > 0 ? $('.selected-tile').first() : $('.active-tile').first();
                 $selectedTile.data('letter', key).text(key).removeClass('empty-tile').removeClass('selected-tile').addClass('filled-tile').addClass('editable-tile');
             }
             break;
@@ -422,6 +422,9 @@ function submitGuess($tiles) {
     } else {
         $tiles.each(function() { $(this).removeClass('editable-tile').addClass('submitted-tile'); });
         processGuess($tiles, guessedWord);
+        $('.empty-tile').slice(0, 5).each(function() {
+            $(this).addClass('active-tile');
+        });
     }
 }
 
