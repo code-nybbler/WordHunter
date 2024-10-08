@@ -171,7 +171,7 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
             // add player
             scoreboard.Players.push({
                 "Player": {
-                    "ID": scoreboard.Players.length,
+                    "ID": scoreboard.Players.length.toString(),
                     "Name": playerName.toString()
                 },
                 "ST_Stats": {
