@@ -184,7 +184,24 @@ async function initialize() {
             $('.progress-msg').text(`${wordCount}/${wordCount} words`);
             break;
         case 2: // elusive goose
-            answer = getWord();
+            answer = {
+                "word": "sassy",
+                "stringMap": new Map([
+                    [
+                        "s",
+                        3
+                    ],
+                    [
+                        "a",
+                        1
+                    ],
+                    [
+                        "y",
+                        1
+                    ]
+                ]),
+                "score": 0
+            }; //getWord();
             answers.push(answer);
             console.log(answer);
             $('.bar').css('width', '0');
