@@ -64,7 +64,7 @@ function populateBoard($board) {
 
     if (gameMode === 1) {
         let rand_char = characters[Math.floor(Math.random() * 25)];
-        $('.empty-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile');
+        $('.empty-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile').addClass('starter-tile');
     } else {
         let $group = $(`<div class="group answer-group"></div>`);
         for (let t = 0; t < 5; t++) $group.append(`<div class="tile" data-index="${t+1}"></div>`);
@@ -374,7 +374,7 @@ function submitGuess($tiles) {
         $tiles.each(function() { $(this).addClass('editable-tile'); });        
     } else if (gameMode === 1 && words.find(word => word.word === guessedWord) === undefined) {
         showToast('Word is not in the wordlist!');
-        $tiles.each(function() { $(this).addClass('editable-tile'); });
+        $tiles.each(function() { if (!$(this).hasClass('starter-tile')) $(this).addClass('editable-tile'); });
     } else {
         $tiles.each(function() { $(this).addClass('submitted-tile'); });
         processGuess($tiles, guessedWord);
