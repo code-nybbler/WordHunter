@@ -376,7 +376,7 @@ function submitGuess($tiles) {
         showToast('Word is not in the wordlist!');
         $tiles.each(function() { if (!$(this).hasClass('starter-tile')) $(this).addClass('editable-tile'); });
     } else {
-        $tiles.each(function() { $(this).addClass('submitted-tile'); });
+        $tiles.each(function() { $(this).removeClass('editable-tile').addClass('submitted-tile'); });
         processGuess($tiles, guessedWord);
     }
 }
