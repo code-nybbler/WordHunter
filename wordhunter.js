@@ -191,7 +191,7 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
             type: "POST",
             url: "https://prod-175.westus.logic.azure.com:443/workflows/da7be3f7e0374a6aa1c200d4ae6730f7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dmIrVanj-WdaSVYRRrJnyqBIXafgN1aBxQUrMCU2Lag",
             data: JSON.stringify(scoreboard),
-            success: function(data) {
+            success: function() {
                 showToast('Scoreboard updated!');
             }
         });
