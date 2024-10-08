@@ -1,4 +1,6 @@
-let words, words_all, scoreboard, answers, answer, guesses, guesses_all, gameMode, wordCount;
+let words, words_all, scoreboard,
+answers, answer, guesses, guesses_all,
+gameMode, wordCount, gameStatus;
 
 let modes = {
     '1': 'Snare Trap',
@@ -78,6 +80,7 @@ async function initialize() {
     answers = [];
     guesses = [];
     guesses_all = [];
+    gameStatus = 0;
     
     await retrieveWordLists();
 
@@ -172,10 +175,11 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
                  }
             });
         }
+        debugger;
         $.ajax({
             type: "POST",
-            url: "write-to-scoreboard.php",
-            data: { payload: `let scoreboard_json = \`${JSON.stringify(scoreboard)}\`;` },
+            url: "https://prod-175.westus.logic.azure.com:443/workflows/da7be3f7e0374a6aa1c200d4ae6730f7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dmIrVanj-WdaSVYRRrJnyqBIXafgN1aBxQUrMCU2Lag",
+            data: JSON.stringify(scoreboard),
             success: function(data) {
                 console.log(data);
             }
@@ -196,20 +200,22 @@ $(document).on('click', '#scoreboard-btn', function() {
 });
 
 $(document).on('click', '.keyboard-key', function() {
-    let key = $(this).data('key');
-    switch (key) {
-        case '↵': // enter
-            if ($('.filled-tile').length > 0 && $('.filled-tile').length % 5 === 0) submitGuess($('.filled-tile').last().closest('.group').find('.tile'));
-            break;
-        case '←': // backspace
-            $('.editable-tile').last().data('letter', '').text('').removeClass('editable-tile').addClass('empty-tile');
-            break;
-        case 'reset': // reset
-            $('#reset-dialog').addClass('show');
-            break;
-        default: // character
-            if ($('.editable-tile').length === 0 || $('.empty-tile').length % 5 !== 0) $('.empty-tile').first().data('letter', key).text(key).removeClass('empty-tile').addClass('filled-tile').addClass('editable-tile');
-            break;
+    if (gameStatus === 0) {
+        let key = $(this).data('key');
+        switch (key) {
+            case '↵': // enter
+                if ($('.filled-tile').length > 0 && $('.filled-tile').length % 5 === 0) submitGuess($('.filled-tile').last().closest('.group').find('.tile'));
+                break;
+            case '←': // backspace
+                $('.editable-tile').last().data('letter', '').text('').removeClass('editable-tile').addClass('empty-tile');
+                break;
+            case 'reset': // reset
+                $('#reset-dialog').addClass('show');
+                break;
+            default: // character
+                if ($('.editable-tile').length === 0 || $('.empty-tile').length % 5 !== 0) $('.empty-tile').first().data('letter', key).text(key).removeClass('empty-tile').addClass('filled-tile').addClass('editable-tile');
+                break;
+        }
     }
 });
 
@@ -332,6 +338,7 @@ function processGuessEG($tiles, guessedWord) {
     });
     
     if (guessedWord === answer.word) {
+        gameStatus = 1;
         // send toast
         showToast(`You won after ${guesses_all.length} guesses!`);
         $('#player-dialog').addClass('show');
