@@ -119,6 +119,7 @@
 }
 #mode-menu .mode-btn,
 #reset-dialog .btn,
+#lose-dialog .btn,
 #player-dialog .btn,
 #player-dialog input { width: 100%; display: block; margin: auto; margin-top: 10px; text-align: center; }
 .scoreboard-pane {
