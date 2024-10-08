@@ -92,7 +92,7 @@
 .spacer { flex: .5; }
 .keyboard-key-large { flex: 1.5; font-size: 12px; }
 .keyboard-key:focus { outline: none; }
-.filled-tile { border-color: #878a8c; }
+.editable-tile { border-color: #878a8c; }
 .correct-tile, .correct-key { background-color: #6aaa64; color: #fff; border-color: #6aaa64; }
 .incorrect-tile, .incorrect-key { background-color: #787c7e; color: #fff; border-color: #787c7e; }
 .present-tile, .present-key { background-color: #c9b458; color: #fff; border-color: #c9b458; }
