@@ -208,7 +208,7 @@ $(document).on('click', '.keyboard-key', function() {
             $('#reset-dialog').addClass('show');
             break;
         default: // character
-            if ($('.filled-tile').length === 0 || $('.empty-tile').length % 5 !== 0) $('.empty-tile').first().data('letter', key).text(key).removeClass('empty-tile').addClass('filled-tile').addClass('editable-tile');
+            if ($('.editable-tile').length === 0 || $('.empty-tile').length % 5 !== 0) $('.empty-tile').first().data('letter', key).text(key).removeClass('empty-tile').addClass('filled-tile').addClass('editable-tile');
             break;
     }
 });
