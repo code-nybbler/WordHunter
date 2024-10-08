@@ -226,22 +226,20 @@ $(document).on('click', '#scoreboard-btn', function() {
 });
 
 $(document).on('click', '.keyboard-key', function() {
-    if (gameStatus === 0) {
-        let key = $(this).data('key');
-        switch (key) {
-            case '↵': // enter
-                if ($('.filled-tile').length > 0 && $('.filled-tile').length % 5 === 0) submitGuess($('.filled-tile').last().closest('.group').find('.tile'));
-                break;
-            case '←': // backspace
-                $('.editable-tile').last().data('letter', '').text('').removeClass('editable-tile').addClass('empty-tile');
-                break;
-            case 'reset': // reset
-                $('#reset-dialog').addClass('show');
-                break;
-            default: // character
-                if ($('.editable-tile').length === 0 || $('.empty-tile').length % 5 !== 0) $('.empty-tile').first().data('letter', key).text(key).removeClass('empty-tile').addClass('filled-tile').addClass('editable-tile');
-                break;
-        }
+    let key = $(this).data('key');
+    switch (key) {
+        case '↵': // enter
+            if ($('.filled-tile').length > 0 && $('.filled-tile').length % 5 === 0 && gameMode === 0) submitGuess($('.filled-tile').last().closest('.group').find('.tile'));
+            break;
+        case '←': // backspace
+            if (gameMode === 0) $('.editable-tile').last().data('letter', '').text('').removeClass('editable-tile').addClass('empty-tile');
+            break;
+        case 'reset': // reset
+            $('#reset-dialog').addClass('show');
+            break;
+        default: // character
+            if ($('.editable-tile').length === 0 || $('.empty-tile').length % 5 !== 0 && gameMode === 0) $('.empty-tile').first().data('letter', key).text(key).removeClass('empty-tile').addClass('filled-tile').addClass('editable-tile');
+            break;
     }
 });
 
