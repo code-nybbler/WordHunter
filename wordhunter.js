@@ -83,6 +83,7 @@ async function initialize() {
             $('.bar-marker').css('left', `${100/wordCount*100}%`).css('opacity', 1);
             $('.progress-msg').text(`${wordCount}/${wordCount} words`);
             let rand_char = characters[Math.floor(Math.random() * 25)];
+            console.log(rand_char);
             $('.empty-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile');
             break;
         case 2: // elusive goose
