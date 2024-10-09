@@ -204,7 +204,14 @@
     h2 { font-size: 5rem; }
     h3 { font-size: 3.75rem; }
     .game-container { height: 100%; }
-    #mode-btn, #scoreboard-btn, .menu .btn { width: 100%; font-size: 40px; margin-top: 10px; border: 2px solid; border-radius: 15px; }
+    .menu { width: 100%; }
+    #mode-btn,
+    #scoreboard-btn,
+    #mode-menu .mode-btn,
+    #reset-dialog .btn,
+    #lose-dialog .btn,
+    #player-dialog .btn,
+    #player-dialog input { width: 90%; font-size: 40px; margin-top: 15px; border: 2px solid; border-radius: 15px; }
     .tile { width: 100px; height: 100px; }
     .keyboard { width: 100%; margin-bottom: 0; }
     .keyboard-key { height: 125px; font-size: 2.25em; }
