@@ -9,7 +9,7 @@ $(document).ready(function() {
     $('.bar-marker').css('left', `${100/wordCount*100}%`).css('opacity', 1);
     $('.progress-msg').text(`${wordCount}/${wordCount} words`);
     $('#mode-menu').addClass('show');
-    setGameMode(1);
+    setGameMode(2);
 });
 
 $(document).on('click', '#mode-menu .mode-btn', function() {
@@ -49,8 +49,10 @@ $(document).on('click', '#lose-dialog .giveup-cancel-btn', function() {
 });
 
 $(document).on('click', '#lose-dialog .giveup-confirm-btn', function() {
-    $('#lose-dialog').removeClass('show');
-    endGame(-1);
+    if (gameStatus === 0) {
+        $('#lose-dialog').removeClass('show');
+        endGame(-1);
+    }
 });
 
 $(document).on('click', '#player-dialog .player-submit-btn', function() {
