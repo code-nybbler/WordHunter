@@ -32,6 +32,7 @@ $(document).on('click', '.menu .close-btn', function() {
 });
 
 $(document).on('click', '#mode-btn', function() {
+    $('.menu').removeClass('show');
     $('#mode-menu').addClass('show');
 });
 
@@ -92,6 +93,7 @@ $(document).on('click', '#player-dialog .player-skip-btn', function() {
 });
 
 $(document).on('click', '#scoreboard-btn', function() {
+    $('.menu').removeClass('show');
     $('#scoreboard').addClass('show');
 });
 
@@ -108,9 +110,11 @@ $(document).on('click', '.keyboard-key', function() {
             }
             break;
         case 'reset': // reset
+            $('.menu').removeClass('show');
             $('#reset-dialog').addClass('show');
             break;
         case 'giveup': // give up
+            $('.menu').removeClass('show');
             $('#lose-dialog').addClass('show');
             break;
         default: // character
