@@ -198,8 +198,8 @@ function setGameMode(mode) {
     gameMode = mode;
     initialize();
     $('#mode-btn').text(modes[gameMode].Name).css('opacity', 1);
-    $('#instructions-dialog h3').text(modes[gameMode].Name);
-    $('#instructions-dialog p').text(modes[gameMode].Instructions);
+    $('#instructions-dialog h3').html(modes[gameMode].Name);
+    $('#instructions-dialog p').html(modes[gameMode].Instructions);
 }
 
 function endGame() { // -1 : lose, 0 : active, 1 : win
