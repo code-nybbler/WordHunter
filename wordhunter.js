@@ -17,7 +17,7 @@ let modes = {
                     'Instructions': 'You have 3 guesses before the answer changes. If you guess any of the letters correctly (in their place), the new answer is guaranteed to contain those letters.'
                 }
             };
-let words, words_all, scoreboard,
+let words, wordlist, words_all, scoreboard,
 answers, answer, guesses, guesses_all,
 gameMode, wordCount, gameStatus;
 
@@ -199,7 +199,7 @@ function setGameMode(mode) {
     initialize();
     words = gameMode === 1 ? words_all : wordlist;
     wordCount = words.length;
-    
+
     $('#mode-btn').text(modes[gameMode].Name).css('opacity', 1);
     $('#instructions-dialog h3').html(modes[gameMode].Name);
     $('#instructions-dialog p').html(modes[gameMode].Instructions);
