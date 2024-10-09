@@ -2,11 +2,11 @@ let characters = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', '
 let modes = {
                 '1': {
                     'Name': 'Snare Trap',
-                    'Instructions': `<b>Narrowing Down the Wordlist:</b> Begin by making a series of guesses from the available 5-letter word list. Each guess should help filter down the word list.
-                                    <b>Letter Grouping Restriction:</b> No subsequent guesses can contain two or more letters that appear together in a previous guess.
+                    'Instructions': `<b>Narrowing Down the Wordlist:</b> Begin by making a series of guesses from the available 5-letter word list. Each guess should help filter down the word list.<br>
+                                    <b>Letter Grouping Restriction:</b> No subsequent guesses can contain two or more letters that appear together in a previous guess.<br>
                                     <ul><li><i>Example:</i> If your first guess is "Water", a later guess like "Wrist" is not allowed since the letters "W", "R", and "T" are grouped together in "Water."</li></ul>
-                                    <br>Word Selection:</b> Once the word list has been narrowed down to 100 words or fewer, the final word will be chosen.
-                                    <b>Guess Feedback:</b> After the word is chosen:
+                                    <b>Word Selection:</b> Once the word list has been narrowed down to 100 words or fewer, the final word will be chosen.<br>
+                                    <b>Guess Feedback:</b> After the word is chosen:<br>
                                     <ul>
                                         <li>Green letters indicate the correct letter in the correct position.</li>
                                         <li>Yellow letters indicate the correct letter in the wrong position.</li>
