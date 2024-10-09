@@ -220,9 +220,11 @@ async function retrieveWordLists() {
 
 async function readWordlist(filePath) {
     return fetch(filePath)
-    .then(response => response.text())
-    .then(text => {
-        return text.split('\r\n').map(word => ({ 'word': word, 'stringMap': getStringMap(word), 'score': 0 }));;
+    .then(response => {
+        return response.text();
+    })
+    .then(data => {
+        return data.split('\r\n').map(word => ({ 'word': word, 'stringMap': getStringMap(word), 'score': 0 }));;
     })
     .catch(error => {
         console.error("Error reading file:", error);
