@@ -70,7 +70,7 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
                 "Words": [1, 1.5].includes(gameMode) ? guesses_all.length : 0
             },
             "EG_Stats": {
-                "Word": answer.word,
+                "Word": answer.word.toUpperCase(),
                 "Guesses": gameMode === 2 ? guesses_all.length : 0
             }
         });
@@ -79,22 +79,7 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
         scoreboard.EG_Top10 = scoreboard.Players.sort((p1, p2) => p1.EG_Stats.Guesses - p2.EG_Stats.Guesses).map(p => ({ 'Player': p.Player, 'Word': p.EG_Stats.Word, 'Guesses': p.EG_Stats.Guesses })).slice(0, 10);
         populateScoreboard();
         $('#scoreboard').addClass('show');
-
-        // send request to update scoreboard
-        let flowURL = 'https://prod-175.westus.logic.azure.com:443/workflows/da7be3f7e0374a6aa1c200d4ae6730f7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dmIrVanj-WdaSVYRRrJnyqBIXafgN1aBxQUrMCU2Lag';
-        let req = new XMLHttpRequest();
-        req.open("POST", flowURL, true);
-        req.setRequestHeader("Content-Type", "application/json");
-        req.onreadystatechange = function () {
-            if (this.readyState === 4) {
-                req.onreadystatechange = null;
-                if (this.status === 202) {
-                    let result = JSON.parse(this.response);                    
-                    showToast('Scoreboard updated!');
-                }
-            }
-        };
-        req.send(JSON.stringify(scoreboard));
+        updateScoreboard();
     } else {
         // handle empty input
     }
@@ -272,6 +257,24 @@ function populateScoreboard() {
         let guesses = placement.Guesses;
         $('#eg-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td>${word}</td><td style="text-align:center;">${guesses}</td></tr>`);
     }
+}
+
+function updateScoreboard() {
+    // send request to update scoreboard
+    let flowURL = 'https://prod-175.westus.logic.azure.com:443/workflows/da7be3f7e0374a6aa1c200d4ae6730f7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dmIrVanj-WdaSVYRRrJnyqBIXafgN1aBxQUrMCU2Lag';
+    let req = new XMLHttpRequest();
+    req.open("POST", flowURL, true);
+    req.setRequestHeader("Content-Type", "application/json");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 202) {
+                let result = JSON.parse(this.response);                    
+                showToast('Scoreboard updated!');
+            }
+        }
+    };
+    req.send(JSON.stringify(scoreboard));
 }
 
 function submitGuess($tiles) {
