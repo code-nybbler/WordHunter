@@ -14,7 +14,17 @@ let modes = {
                 },
                 '2': {
                     'Name': 'Elusive Goose',
-                    'Instructions': 'You have 3 guesses before the answer changes. If you guess any of the letters correctly (in their place), the new answer is guaranteed to contain those letters.'
+                    'Instructions': `<b>Guess:</b> Start by guessing a 5-letter word.<br>
+                                    After each guess:<br>
+                                    <ul>
+                                        <li><b>Green letters</b> indicate the correct letter in the correct position.</li>
+                                        <li><b>Yellow letters</b> indicate the correct letter in the wrong position.</li>
+                                    </ul>
+                                    <b>Mystery Word Changes:</b><br>
+                                    <ul>
+                                        <li>Every three guesses, the mystery word will change.</li>
+                                        <li>The new word will always include any green letters that have been guessed correctly so far.</li>
+                                    </ul>`
                 }
             };
 let words, wordlist, words_all, scoreboard,
