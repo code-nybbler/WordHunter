@@ -59,37 +59,24 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
     let playerName = $('#player-input').val();
     if (playerName !== '') {
         $('#player-dialog').removeClass('show');
-        // add player details to scoreboard JSON
-        let existingPlayer = scoreboard.Players.find(player => player.Name === playerName);
-        if (existingPlayer !== undefined) {
-            // update stats
-            if ([1, 1.5].includes(gameMode)) {
-                existingPlayer.ST_Stats.TimesPlayed++;
-                existingPlayer.ST_Stats.Words = guesses_all.length;
-            } else {
-                existingPlayer.EG_Stats.TimesPlayed++;
-                existingPlayer.EG_Stats.Words = guesses_all.length;
+        
+        // add player
+        scoreboard.Players.push({
+            "Player": {
+                "ID": scoreboard.Players.length.toString(),
+                "Name": playerName.toString()
+            },
+            "ST_Stats": {
+                "Words": [1, 1.5].includes(gameMode) ? guesses_all.length : 0
+            },
+            "EG_Stats": {
+                "Word": answer.word,
+                "Guesses": gameMode === 2 ? guesses_all.length : 0
             }
-        } else {
-            // add player
-            scoreboard.Players.push({
-                "Player": {
-                    "ID": scoreboard.Players.length.toString(),
-                    "Name": playerName.toString()
-                },
-                "ST_Stats": {
-                    "TimesPlayed": [1, 1.5].includes(gameMode) ? 1 : 0,
-                    "Words": [1, 1.5].includes(gameMode) ? guesses_all.length : 0
-                },
-                "EG_Stats": {
-                    "TimesPlayed": gameMode === 2 ? 1 : 0,
-                    "Words": gameMode === 2 ? guesses_all.length : 0
-                }
-            });
-        }
+        });
         
         scoreboard.ST_Top10 = scoreboard.Players.sort((p1, p2) => p1.ST_Stats.Words - p2.ST_Stats.Words).map(p => ({ 'Player': p.Player, 'Words': p.ST_Stats.Words })).slice(0, 10);
-        scoreboard.EG_Top10 = scoreboard.Players.sort((p1, p2) => p1.EG_Stats.Words - p2.EG_Stats.Words).map(p => ({ 'Player': p.Player, 'Words': p.EG_Stats.Words })).slice(0, 10);
+        scoreboard.EG_Top10 = scoreboard.Players.sort((p1, p2) => p1.EG_Stats.Guesses - p2.EG_Stats.Guesses).map(p => ({ 'Player': p.Player, 'Word': p.EG_Stats.Word, 'Guesses': p.EG_Stats.Guesses })).slice(0, 10);
         populateScoreboard();
         $('#scoreboard').addClass('show');
 
@@ -281,8 +268,9 @@ function populateScoreboard() {
     for (let place in scoreboard.EG_Top10) {
         let placement = scoreboard.EG_Top10[place];
         let player = placement.Player;
-        let words = placement.Words;
-        $('#eg-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td style="text-align:center;">${words}</td></tr>`);
+        let word = placement.Word;
+        let guesses = placement.Guesses;
+        $('#eg-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td>${word}</td><td style="text-align:center;">${guesses}</td></tr>`);
     }
 }
 
