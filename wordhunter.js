@@ -263,7 +263,7 @@ function populateBoard($board) {
         $board.append($group);
     }
 
-    if (gameMode === 1) {
+    if (gameMode === 1 && guesses_all.length === 0) {
         let rand_char = characters[Math.floor(Math.random() * 25)];
         $('.active-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile').addClass('starter-tile');
     } else {
