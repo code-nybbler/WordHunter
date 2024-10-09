@@ -204,7 +204,8 @@
     h2 { font-size: 5rem; }
     h3 { font-size: 3.75rem; }
     .game-container { height: 100%; }
-    .menu { width: 100%; }
+    .menu { width: 80%; border-radius: 30px }
+    .menu .close-btn { height: 50px; width: 50px; font-size: 40px; border-radius: 15px; }
     #mode-btn,
     #scoreboard-btn,
     #mode-menu .mode-btn,
