@@ -18,8 +18,10 @@ $(document).on('click', '#mode-menu .mode-btn', function() {
 });
 
 $(document).on('click', '.active-tile', function() {
-    $('.selected-tile').removeClass('selected-tile');
-    $(this).addClass('selected-tile');
+    if (!$(this).hasClass('starter-tile')) {
+        $('.selected-tile').removeClass('selected-tile');
+        $(this).addClass('selected-tile');
+    }
 });
 
 $(document).on('click', '.editable-tile', function() {
@@ -299,6 +301,7 @@ function submitGuess($tiles) {
     } else {
         $tiles.each(function() { $(this).removeClass('editable-tile').addClass('submitted-tile'); });
         processGuess($tiles, guessedWord);
+        $('.active-tile').removeClass('active-tile');
         $('.empty-tile').slice(0, 5).each(function() {
             $(this).addClass('active-tile');
         });
@@ -325,7 +328,7 @@ function processGuess($tiles, guessedWord) {
 function processGuessST(guessedWord) {
     // filter and sort wordlist
     words = words.map(word => ({ ...word, score: getCommonCount(word, guessedWord) })).filter(word => word.score < 2);
-    $('.progress-msg').text(`${words.length}/${wordCount} words`);
+    $('.progress-msg').text(`${words.length} / ${wordCount} words`);
 
     if (words.length <= 100) {
         // choose new word
