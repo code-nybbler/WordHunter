@@ -51,8 +51,9 @@ $(document).on('click', '#lose-dialog .giveup-cancel-btn', function() {
 
 $(document).on('click', '#lose-dialog .giveup-confirm-btn', function() {
     if (gameStatus === 0) {
+        gameStatus = -1;
         $('#lose-dialog').removeClass('show');
-        endGame(-1);
+        endGame();
     }
 });
 
@@ -84,7 +85,7 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
     } else {
         // handle empty input
     }
-    endGame(1);
+    endGame();
 });
 
 $(document).on('click', '#player-dialog .player-skip-btn', function() {
@@ -177,7 +178,7 @@ function setGameMode(mode) {
     $('#mode-btn').text(modes[gameMode]).css('opacity', 1);
 }
 
-function endGame(status) { // -1 : lose, 0 : active, 1 : win
+function endGame() { // -1 : lose, 0 : active, 1 : win
     if (answers.length > 0 && guesses_all.length > 0) {
         $('.answer-group').each(function(index) {
             let answerArr = answers[index].word.split('');            
