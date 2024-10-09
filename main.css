@@ -129,8 +129,10 @@
     padding: 0 10px 0 10px;
 }
 .menu .close-btn { position: absolute; top: 15px; right: 15px; height: 20px; width: 20px; padding: 0px 2px 4px 2px; }
+.action-btn-container { position: relative; }
+.fa-question-circle:before { position: absolute; top: 14px; margin-left: 5px; }
 #mode-btn { font-weight: 600; font-size: 20px; width: 200px; margin: auto; }
-#scoreboard-btn { font-weight: 600; width: 200px; margin: auto; margin-top: 5px; }
+#scoreboard-btn { font-weight: 600; width: 200px; margin: auto; margin-top: 5px; display: block; }
 #toast-msg {
     visibility: hidden;
     min-width: 250px;
@@ -203,6 +205,7 @@
     h2 { font-size: 5rem; }
     h3 { font-size: 3.75rem; }
     h4 { font-size: 3rem; }
+    p, .fa-question-circle:before { font-size: 32px; }
     .game-container { height: 100%; }
     .progress-container, .progress-bar { width: 100%; height: 75px; margin-bottom: 60px; }
     .progress-msg { font-size: 28px; }
