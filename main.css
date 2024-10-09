@@ -216,6 +216,7 @@
     #lose-dialog .btn,
     #player-dialog .btn,
     #player-dialog input { width: 90%; font-size: 40px; margin-top: 15px; border: 2px solid; border-radius: 15px; }
+    .scoreboard-pane { display: block; }
     .scoreboard-pane table { font-size: 36px; }
     .tile { width: 100px; height: 100px; font-size: 4rem; }
     .keyboard { width: 100%; margin-bottom: 0; }
