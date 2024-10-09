@@ -348,22 +348,24 @@ function processGuessST(guessedWord) {
 
 function processGuessEG($tiles, guessedWord) {
     // split answer characters into an array
-    let answerArr = answer.word.split('');
+    let answerArr = answer.word.split('').map(c => ({ 'letter': c, 'marked': false }));
     let letters = guessedWord.split('').map((l, idx) => ({ 'index': idx, 'letter': l, 'marked': false }));
 
     for (let c = 0; c < answerArr.length; c++) {
-        let match = letters.find((l, idx) => l.letter === answerArr[c] && !l.marked && idx === c); // find in guess at same index
+        let match = letters.find((l, idx) => l.letter === answerArr[c].letter && !l.marked && idx === c); // find in guess at same index
 
         if (match !== undefined) {
             let $key = $(`.keyboard-key[data-key="${match.letter}"]`);
             $tiles.eq(match.index).addClass('correct-tile');
             $key.removeClass('present-key').addClass('correct-key');
             match.marked = true;
+            answerArr[c].marked = true;
         }
     }
 
-    for (let c = 0; c < answerArr.length; c++) {
-        let match = letters.find(l => l.letter === answerArr[c] && !l.marked); // find anywhere in guess
+    let unmarked = answerArr.filter(c => !c.marked);
+    for (let c = 0; c < unmarked.length; c++) {
+        let match = letters.find(l => l.letter === unmarked[c].letter && !l.marked); // find anywhere in guess
 
         if (match !== undefined) {
             let $key = $(`.keyboard-key[data-key="${match.letter}"]`);
