@@ -121,7 +121,8 @@ $(document).on('click', '#player-dialog .player-skip-btn', function() {
     endGame(1);
 });
 
-$(document).on('click', '#scoreboard-btn', function() {
+$(document).on('click', '#scoreboard-btn', async function() {
+    await readScoreboard();
     $('.menu').removeClass('show');
     $('#scoreboard').addClass('show');
 });
