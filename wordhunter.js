@@ -175,6 +175,8 @@ async function initialize() {
     gameStatus = 0;
     
     await retrieveWordLists();
+    words = gameMode === 1 ? words_all : wordlist;
+    wordCount = words.length;
 
     switch(gameMode) {
         case 1: // snare trap
