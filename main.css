@@ -54,7 +54,7 @@
 }
 .answer-group .tile { border-color: #6aaa64; }
 .keyboard {
-    height: 260px;
+    /*height: 260px;*/
     width: 500px;
     margin: auto;
     -webkit-user-select: none;
@@ -168,10 +168,8 @@
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 }
-
 .progress-container { margin: auto; padding: 10px; }
 .progress-msg { float: right; font-size: 12px; }
-
 .progress-bar {
     background-color: #d3d6da;
     width: 500px;
@@ -181,7 +179,6 @@
     border-radius: 5px;
     border: 3px solid #d3d6da;
 }
-
 .bar {
     background-color: #6aaa64;
     position: absolute;
@@ -194,7 +191,6 @@
     transform-origin: left;
     border-radius: inherit;
 }
-
 .bar-marker {
     width: 3px;
     height: 100%;
@@ -204,7 +200,6 @@
     opacity: 0;
     z-index: 9;
 }
-
 @media all and (max-width: 1024px) {
     .game-container { height: 100%; }
     .tile { width: 100px; height: 100px; }
