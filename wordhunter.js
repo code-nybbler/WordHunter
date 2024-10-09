@@ -178,7 +178,7 @@ function setGameMode(mode) {
 }
 
 function endGame(status) { // -1 : lose, 0 : active, 1 : win
-    if (answers.length > 0 && guesses.length > 0) {
+    if (answers.length > 0 && guesses_all.length > 0) {
         $('.answer-group').each(function(index) {
             let answerArr = answers[index].word.split('');            
             $(this).find('.tile').each(function(idx) {
