@@ -279,7 +279,7 @@ function readScoreboard() {
             type: "GET",
             url: "https://prod-56.westus.logic.azure.com:443/workflows/7534300353cb48ad892f6741046aeab8/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=JS-U_mvyGe_-PXwesvCPE7DA0oASww0h6h7D1RXM47Q",
             success: function(data) {
-                scoreboard = data;
+                scoreboard = JSON.parse(data);
                 populateScoreboard();
                 resolve();
             }
@@ -288,7 +288,6 @@ function readScoreboard() {
 }
 
 function populateScoreboard() {
-    debugger;
     $('#st-scoreboard table tbody').empty();
     for (let place in scoreboard.ST_Top10) {
         let placement = scoreboard.ST_Top10[place];
