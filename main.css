@@ -99,7 +99,7 @@
 .present-tile, .present-key { background-color: #c9b458; color: #fff; border-color: #c9b458; }
 .menu {
     min-width: 400px;
-    max-width: 600px;
+    max-width: 800px;
     background-color: #333;
     color: #fff;
     text-align: left;
