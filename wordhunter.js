@@ -1,13 +1,20 @@
 let characters = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ];
-let modes = { '1': 'Snare Trap', '2': 'Elusive Goose' };
+let modes = {
+                '1': {
+                    'Name': 'Snare Trap',
+                    'Instructions': 'There is no answer (at first). Narrow down the words that are available by making guesses. No guess can contain any 2 letters that exist in a previous guess. Once you filter the list down to 100 words or less, an answer will be chosen.'
+                },
+                '2': {
+                    'Name': 'Elusive Goose',
+                    'Instructions': 'You have 3 guesses before the answer changes. If you guess any of the letters correctly (in their place), the new answer is guaranteed to contain those letters.'
+                }
+            };
 let words, words_all, scoreboard,
 answers, answer, guesses, guesses_all,
 gameMode, wordCount, gameStatus;
 
 $(document).ready(function() {
     readScoreboard();
-    $('.bar-marker').css('left', `${100/wordCount*100}%`).css('opacity', 1);
-    $('.progress-msg').text(`${wordCount}/${wordCount} words`);
     $('#mode-menu').addClass('show');
     setGameMode(2);
 });
@@ -79,8 +86,8 @@ $(document).on('click', '#player-dialog .player-submit-btn', function() {
             }
         });
         
-        scoreboard.ST_Top10 = scoreboard.Players.sort((p1, p2) => p1.ST_Stats.Words - p2.ST_Stats.Words).map(p => ({ 'Player': p.Player, 'Words': p.ST_Stats.Words })).slice(0, 10);
-        scoreboard.EG_Top10 = scoreboard.Players.sort((p1, p2) => p1.EG_Stats.Guesses - p2.EG_Stats.Guesses).map(p => ({ 'Player': p.Player, 'Word': p.EG_Stats.Word, 'Guesses': p.EG_Stats.Guesses })).slice(0, 10);
+        scoreboard.ST_Top10 = scoreboard.Players.filter(p => p.ST_Stats.Words > 0).sort((p1, p2) => p1.ST_Stats.Words - p2.ST_Stats.Words).map(p => ({ 'Player': p.Player, 'Words': p.ST_Stats.Words })).slice(0, 10);
+        scoreboard.EG_Top10 = scoreboard.Players.filter(p => p.EG_Stats.Guesses > 0).sort((p1, p2) => p1.EG_Stats.Guesses - p2.EG_Stats.Guesses).map(p => ({ 'Player': p.Player, 'Word': p.EG_Stats.Word, 'Guesses': p.EG_Stats.Guesses })).slice(0, 10);
         populateScoreboard();
         $('#scoreboard').addClass('show');
         updateScoreboard();
@@ -98,6 +105,11 @@ $(document).on('click', '#player-dialog .player-skip-btn', function() {
 $(document).on('click', '#scoreboard-btn', function() {
     $('.menu').removeClass('show');
     $('#scoreboard').addClass('show');
+});
+
+$(document).on('click', '.fa-question-circle', function() {
+    $('.menu').removeClass('show');
+    $('#instructions-dialog').addClass('show');
 });
 
 $(document).on('click', '.keyboard-key', function() {
@@ -160,7 +172,7 @@ async function initialize() {
         case 1: // snare trap
             $('.bar').css('width', '100%');
             $('.bar-marker').css('left', `${100/wordCount*100}%`).css('opacity', 1);
-            $('.progress-msg').text(`${wordCount}/${wordCount} words`);
+            $('.progress-msg').text(`${wordCount} / ${wordCount} words`);
             break;
         case 2: // elusive goose
             answer = getWord();
@@ -177,7 +189,9 @@ async function initialize() {
 function setGameMode(mode) {
     gameMode = mode;
     initialize();
-    $('#mode-btn').text(modes[gameMode]).css('opacity', 1);
+    $('#mode-btn').text(modes[gameMode].Name).css('opacity', 1);
+    $('#instructions-dialog h3').text(modes[gameMode].Name);
+    $('#instructions-dialog p').text(modes[gameMode].Instructions);
 }
 
 function endGame() { // -1 : lose, 0 : active, 1 : win
@@ -194,8 +208,9 @@ function endGame() { // -1 : lose, 0 : active, 1 : win
 
 async function retrieveWordLists() {
     wordlist = await readWordlist('./wordlist.txt');
-    words = wordlist;
     words_all = await readWordlist('./wordlist-all.txt');
+    
+    words = gameMode === 1 ? words_all : wordlist;
     wordCount = words.length;
 }
 

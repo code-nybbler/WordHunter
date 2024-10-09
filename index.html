@@ -1,6 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha512-iQQV+nXtBlmS3XiDrtmL+9/Z+ibux+YuowJjI4rcpO7NYgTzfTOiFNm09kWtfZzEB9fQ6TwOVc8lFVWooFuD/w==" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="main.css">
         <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>        
@@ -11,7 +12,7 @@
     <body>
         <div class="game-container">
             <h2>Word Hunter</h2>
-            <button type="button" class="btn btn-outline-secondary" id="mode-btn">Snare Trap</button>
+            <button type="button" class="btn btn-outline-secondary" id="mode-btn"></button><i class="fa fa-question-circle"></i>
             <button type="button" class="btn btn-sm btn-outline-warning" id="scoreboard-btn">Scoreboard</button>
             <div class="board-container"></div>
             <div class="progress-container">
@@ -56,11 +57,7 @@
                     <button type="button" data-key="b" aria-label="add b" aria-disabled="false" class="keyboard-key">b</button>
                     <button type="button" data-key="n" aria-label="add n" aria-disabled="false" class="keyboard-key">n</button>
                     <button type="button" data-key="m" aria-label="add m" aria-disabled="false" class="keyboard-key">m</button>
-                    <button type="button" data-key="←" aria-label="backspace" aria-disabled="true" class="keyboard-key keyboard-key-large backspace-key">del
-                        <!--svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20" class="game-icon" data-testid="icon-backspace">
-                            <path fill="#000" d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"></path>
-                        </svg-->
-                    </button>
+                    <button type="button" data-key="←" aria-label="backspace" aria-disabled="true" class="keyboard-key keyboard-key-large backspace-key">del</button>
                 </div>
                 <div class="keyboard-row">
                     <button type="button" data-key="reset" aria-label="reset" aria-disabled="true" class="keyboard-key keyboard-key-large btn-outline-danger">reset game</button>
@@ -73,6 +70,11 @@
                 <h3>Game Mode</h3><hr>
                 <button type="button" class="btn btn-outline-warning mode-btn" data-mode="2">Elusive Goose</button>
                 <button type="button" class="btn btn-outline-warning mode-btn" data-mode="1">Snare Trap</button>
+            </div>
+            <div class="menu" id="instructions-dialog">
+                <button type="button" class="btn btn-outline-danger close-btn"><span style="line-height: 0;">&#215;</span></button>
+                <h3></h3><hr>
+                <p></p>
             </div>
             <div class="menu" id="reset-dialog">
                 <h3>Are you sure?</h3><hr>
