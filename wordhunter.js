@@ -194,9 +194,9 @@ async function initialize() {
     initializeNewBoard();
 }
 
-function setGameMode(mode) {
+async function setGameMode(mode) {
     gameMode = mode;
-    initialize();
+    await initialize();
     words = gameMode === 1 ? words_all : wordlist;
     wordCount = words.length;
 
