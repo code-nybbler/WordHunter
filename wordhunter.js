@@ -32,7 +32,6 @@ answers, answer, guesses, guesses_all,
 gameMode, wordCount, gameStatus;
 
 $(document).ready(function() {
-    readScoreboard();
     $('#mode-menu').addClass('show');
     setGameMode(2);
 });
@@ -289,6 +288,7 @@ function readScoreboard() {
 }
 
 function populateScoreboard() {
+    debugger;
     $('#st-scoreboard table tbody').empty();
     for (let place in scoreboard.ST_Top10) {
         let placement = scoreboard.ST_Top10[place];
