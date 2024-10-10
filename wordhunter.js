@@ -8,8 +8,9 @@ let modes = {
                                     <b>Word Selection:</b> Once the word list has been narrowed down to 100 words or fewer, the final word will be chosen.<br>
                                     <b>Guess Feedback:</b> After the word is chosen:<br>
                                     <ul>
-                                        <li>Green letters indicate the correct letter in the correct position.</li>
-                                        <li>Yellow letters indicate the correct letter in the wrong position.</li>
+                                        <li><b>Green tiles</b> indicate the correct letter in the correct position.</li>
+                                        <li><b>Yellow tiles</b> indicate the correct letter in the wrong position.</li>
+                                        <li><b>Grey tiles</b> indicate the letter is not in the word.</li>
                                     </ul>`
                 },
                 '2': {
@@ -17,14 +18,16 @@ let modes = {
                     'Instructions': `<b>Guess:</b> Start by guessing a 5-letter word.<br>
                                     After each guess:<br>
                                     <ul>
-                                        <li><b>Green letters</b> indicate the correct letter in the correct position.</li>
-                                        <li><b>Yellow letters</b> indicate the correct letter in the wrong position.</li>
+                                        <li><b>Green tiles</b> indicate the correct letter in the correct position.</li>
+                                        <li><b>Yellow tiles</b> indicate the correct letter in the wrong position.</li>
+                                        <li><b>Grey tiles</b> indicate the letter is not in the word.</li>
                                     </ul>
                                     <b>Mystery Word Changes:</b><br>
                                     <ul>
                                         <li>Every three guesses, the mystery word will change.</li>
                                         <li>The new word will always include any green letters that have been guessed correctly so far.</li>
-                                    </ul>`
+                                    </ul>
+                                    <i>Note:</i> Letters can be used more than once in the same guess.`
                 }
             };
 let words, wordlist, words_all, scoreboard,
