@@ -109,6 +109,14 @@ $(document).on('click', '#player-dialog .player-submit-btn', async function() {
         populateScoreboard();
         $('#scoreboard').addClass('show');
         updateScoreboard();
+
+        let player = {
+            "Name": playerName.toString(),
+            "Mode": [1, 1.5].includes(gameMode) ? 1 : 2,
+            "Quantity": guesses_all.length
+        }
+
+        addPlayerSubmission(player);
     } else {
         // handle empty input
     }
@@ -304,6 +312,22 @@ function populateScoreboard() {
         let guesses = placement.Guesses;
         $('#eg-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td>${word}</td><td style="text-align:center;">${guesses}</td></tr>`);
     }
+}
+
+function addPlayerSubmission(player) {
+    let flowURL = 'https://prod-95.westus.logic.azure.com:443/workflows/9cca4ec3bb254d5bb2dac2f3a3dc8e63/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uFrW_vZRf0yHWf-fQP5Dt_CWj8PSnO1woGxfLCK-5cI';
+    let req = new XMLHttpRequest();
+    req.open("POST", flowURL, true);
+    req.setRequestHeader("Content-Type", "application/json");
+    req.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            req.onreadystatechange = null;
+            if (this.status === 200) {
+                let result = JSON.parse(this.response);
+            }
+        }
+    };
+    req.send(JSON.stringify(player));
 }
 
 function updateScoreboard() {
