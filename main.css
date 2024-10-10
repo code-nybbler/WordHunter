@@ -107,9 +107,9 @@
     padding: 40px;
     z-index: 99;
     position: fixed;
-    top: 20%;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     visibility: hidden;
     opacity: 0;
     transition: visibility 0.3s linear, opacity 0.3s linear;
