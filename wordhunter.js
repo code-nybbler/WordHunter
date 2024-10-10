@@ -113,6 +113,7 @@ $(document).on('click', '#player-dialog .player-submit-btn', async function() {
         let player = {
             "Name": playerName.toString(),
             "Mode": [1, 1.5].includes(gameMode) ? 1 : 2,
+            "Word": answer !== undefined && answer !== null ? answer.word.toUpperCase() : '',
             "Quantity": guesses_all.length
         }
 
@@ -129,7 +130,6 @@ $(document).on('click', '#player-dialog .player-skip-btn', function() {
 });
 
 $(document).on('click', '#scoreboard-btn', async function() {
-    debugger;
     await readScoreboard();
     $('.menu').removeClass('show');
     $('#scoreboard').addClass('show');
