@@ -90,7 +90,7 @@ $(document).on('click', '#player-dialog .player-submit-btn', async function() {
         await readScoreboard();
         
         // add player
-        scoreboard.Players.push({
+        /*scoreboard.Players.push({
             "Player": {
                 "ID": scoreboard.Players.length.toString(),
                 "Name": playerName.toString()
@@ -106,18 +106,21 @@ $(document).on('click', '#player-dialog .player-submit-btn', async function() {
         
         scoreboard.ST_Top10 = scoreboard.Players.filter(p => p.ST_Stats.Words > 0).sort((p1, p2) => p1.ST_Stats.Words - p2.ST_Stats.Words).map(p => ({ 'Player': p.Player, 'Words': p.ST_Stats.Words })).slice(0, 10);
         scoreboard.EG_Top10 = scoreboard.Players.filter(p => p.EG_Stats.Guesses > 0).sort((p1, p2) => p1.EG_Stats.Guesses - p2.EG_Stats.Guesses).map(p => ({ 'Player': p.Player, 'Word': p.EG_Stats.Word, 'Guesses': p.EG_Stats.Guesses })).slice(0, 10);
-        populateScoreboard();
-        $('#scoreboard').addClass('show');
-        updateScoreboard();
-
+        
+        updateScoreboard();*/
+        
         let player = {
             "Name": playerName.toString(),
             "Mode": [1, 1.5].includes(gameMode) ? 1 : 2,
             "Word": answer !== undefined && answer !== null ? answer.word.toUpperCase() : '',
-            "Quantity": guesses_all.length
+            "WordsGuesses": guesses_all.length
         }
 
-        addPlayerSubmission(player);
+        await addPlayerSubmission(player);
+        await readScoreboard();
+        populateScoreboard();
+        $('.menu').removeClass('show');
+        $('#scoreboard').addClass('show');
     } else {
         // handle empty input
     }
@@ -301,7 +304,7 @@ function populateScoreboard() {
     for (let place in scoreboard.ST_Top10) {
         let placement = scoreboard.ST_Top10[place];
         let player = placement.Player;
-        let words = placement.Words;
+        let words = placement.WordsGuesses;
         $('#st-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td style="text-align:center;">${words}</td></tr>`);
     }
     $('#eg-scoreboard table tbody').empty();
@@ -309,25 +312,28 @@ function populateScoreboard() {
         let placement = scoreboard.EG_Top10[place];
         let player = placement.Player;
         let word = placement.Word;
-        let guesses = placement.Guesses;
+        let guesses = placement.WordsGuesses;
         $('#eg-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td>${word}</td><td style="text-align:center;">${guesses}</td></tr>`);
     }
 }
 
 function addPlayerSubmission(player) {
-    let flowURL = 'https://prod-95.westus.logic.azure.com:443/workflows/9cca4ec3bb254d5bb2dac2f3a3dc8e63/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uFrW_vZRf0yHWf-fQP5Dt_CWj8PSnO1woGxfLCK-5cI';
-    let req = new XMLHttpRequest();
-    req.open("POST", flowURL, true);
-    req.setRequestHeader("Content-Type", "application/json");
-    req.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            req.onreadystatechange = null;
-            if (this.status === 200) {
-                let result = JSON.parse(this.response);
+    return new Promise(resolve => {
+        let flowURL = 'https://prod-95.westus.logic.azure.com:443/workflows/9cca4ec3bb254d5bb2dac2f3a3dc8e63/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uFrW_vZRf0yHWf-fQP5Dt_CWj8PSnO1woGxfLCK-5cI';
+        let req = new XMLHttpRequest();
+        req.open("POST", flowURL, true);
+        req.setRequestHeader("Content-Type", "application/json");
+        req.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                req.onreadystatechange = null;
+                if (this.status === 200) {
+                    let result = JSON.parse(this.response);
+                    resolve(result);
+                }
             }
-        }
-    };
-    req.send(JSON.stringify(player));
+        };
+        req.send(JSON.stringify(player));
+    });
 }
 
 function updateScoreboard() {
