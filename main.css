@@ -114,6 +114,7 @@
     opacity: 0;
     transition: visibility 0.3s linear, opacity 0.3s linear;
 }
+#scoreboard { min-height: 400px; }
 .menu.show {
     visibility: visible;
     opacity: 1;
@@ -133,7 +134,7 @@
     height: 50px;
     width: 50px;
     position: absolute;
-    top: 80%;
+    top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: center / 100% no-repeat url("./Spinner.gif");
