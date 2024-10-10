@@ -108,14 +108,14 @@ $(document).on('click', '#player-dialog .player-submit-btn', async function() {
         
         updateScoreboard();*/
         
-        let player = {
+        let gamePlay = {
             "Name": playerName.toString(),
             "Mode": [1, 1.5].includes(gameMode) ? 1 : 2,
             "Word": answer !== undefined && answer !== null ? answer.word.toUpperCase() : '',
             "WordsGuesses": guesses_all.length
         }
 
-        await addPlayerSubmission(player);
+        await submitGamePlay(gamePlay);
         await readScoreboard();
         populateScoreboard();
         $('.menu').removeClass('show');
@@ -316,7 +316,7 @@ function populateScoreboard() {
     }
 }
 
-function addPlayerSubmission(player) {
+function submitGamePlay(player) {
     return new Promise(resolve => {
         let flowURL = 'https://prod-95.westus.logic.azure.com:443/workflows/9cca4ec3bb254d5bb2dac2f3a3dc8e63/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uFrW_vZRf0yHWf-fQP5Dt_CWj8PSnO1woGxfLCK-5cI';
         let req = new XMLHttpRequest();
