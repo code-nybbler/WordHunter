@@ -270,7 +270,6 @@ function readScoreboard() {
         success: function(data) {
             scoreboard = data;
             populateScoreboard();
-            resolve();
         }
     });
 }
