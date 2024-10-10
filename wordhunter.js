@@ -5,7 +5,7 @@ let modes = {
                     'Instructions': `<b>Narrowing Down the Wordlist:</b> Begin by making a series of guesses from the available 5-letter word list. Each guess should help filter down the word list.<br>
                                     <b>Letter Grouping Restriction:</b> No subsequent guesses can contain two or more letters that appear together in a previous guess.<br>
                                     <ul><li><i>Example:</i> If your first guess is "Water", a later guess like "Wrist" is not allowed since the letters "W", "R", and "T" are grouped together in "Water."</li></ul>
-                                    <b>Word Selection:</b> Once the word list has been narrowed down to 100 words or fewer, the final word will be chosen.<br>
+                                    <b>Word Selection:</b> Once the word list has been narrowed down to 500 words or fewer, the final word will be chosen.<br>
                                     <b>Guess Feedback:</b> After the word is chosen:<br>
                                     <ul>
                                         <li><b>Green tiles</b> indicate the correct letter in the correct position.</li>
@@ -361,7 +361,7 @@ function processGuessST(guessedWord) {
     words = words.map(word => ({ ...word, score: getCommonCount(word, guessedWord) })).filter(word => word.score < 2);
     $('.progress-msg').text(`${words.length} / ${wordCount} words`);
 
-    if (words.length <= 100) {
+    if (words.length <= 500) {
         // choose new word
         answer = getWord();        
         answers.push(answer);
