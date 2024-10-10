@@ -88,26 +88,6 @@ $(document).on('click', '#player-dialog .player-submit-btn', async function() {
     if (playerName !== '') {
         $('#player-dialog').removeClass('show');
         
-        // add player
-        /*scoreboard.Players.push({
-            "Player": {
-                "ID": scoreboard.Players.length.toString(),
-                "Name": playerName.toString()
-            },
-            "ST_Stats": {
-                "Words": [1, 1.5].includes(gameMode) ? guesses_all.length : 0
-            },
-            "EG_Stats": {
-                "Word": answer.word.toUpperCase(),
-                "Guesses": gameMode === 2 ? guesses_all.length : 0
-            }
-        });
-        
-        scoreboard.ST_Top10 = scoreboard.Players.filter(p => p.ST_Stats.Words > 0).sort((p1, p2) => p1.ST_Stats.Words - p2.ST_Stats.Words).map(p => ({ 'Player': p.Player, 'Words': p.ST_Stats.Words })).slice(0, 10);
-        scoreboard.EG_Top10 = scoreboard.Players.filter(p => p.EG_Stats.Guesses > 0).sort((p1, p2) => p1.EG_Stats.Guesses - p2.EG_Stats.Guesses).map(p => ({ 'Player': p.Player, 'Word': p.EG_Stats.Word, 'Guesses': p.EG_Stats.Guesses })).slice(0, 10);
-        
-        updateScoreboard();*/
-        
         let gamePlay = {
             "Name": playerName.toString(),
             "Mode": [1, 1.5].includes(gameMode) ? 1 : 2,
@@ -116,10 +96,9 @@ $(document).on('click', '#player-dialog .player-submit-btn', async function() {
         }
 
         await submitGamePlay(gamePlay);
-        await readScoreboard();
-        populateScoreboard();
         $('.menu').removeClass('show');
         $('#scoreboard').addClass('show');
+        await readScoreboard();
     } else {
         // handle empty input
     }
@@ -132,9 +111,9 @@ $(document).on('click', '#player-dialog .player-skip-btn', function() {
 });
 
 $(document).on('click', '#scoreboard-btn', async function() {
-    await readScoreboard();
     $('.menu').removeClass('show');
     $('#scoreboard').addClass('show');
+    await readScoreboard();
 });
 
 $(document).on('click', '.fa-question-circle', function() {
@@ -333,24 +312,6 @@ function submitGamePlay(player) {
         };
         req.send(JSON.stringify(player));
     });
-}
-
-function updateScoreboard() {
-    // send request to update scoreboard
-    let flowURL = 'https://prod-175.westus.logic.azure.com:443/workflows/da7be3f7e0374a6aa1c200d4ae6730f7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dmIrVanj-WdaSVYRRrJnyqBIXafgN1aBxQUrMCU2Lag';
-    let req = new XMLHttpRequest();
-    req.open("POST", flowURL, true);
-    req.setRequestHeader("Content-Type", "application/json");
-    req.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            req.onreadystatechange = null;
-            if (this.status === 202) {
-                let result = JSON.parse(this.response);                    
-                showToast('Scoreboard updated!');
-            }
-        }
-    };
-    req.send(JSON.stringify(scoreboard));
 }
 
 function submitGuess($tiles) {
