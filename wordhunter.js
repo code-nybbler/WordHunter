@@ -98,7 +98,7 @@ $(document).on('click', '#player-dialog .player-submit-btn', async function() {
         await submitGamePlay(gamePlay);
         $('.menu').removeClass('show');
         $('#scoreboard').addClass('show');
-        await readScoreboard();
+        readScoreboard();
     } else {
         // handle empty input
     }
@@ -113,7 +113,7 @@ $(document).on('click', '#player-dialog .player-skip-btn', function() {
 $(document).on('click', '#scoreboard-btn', async function() {
     $('.menu').removeClass('show');
     $('#scoreboard').addClass('show');
-    await readScoreboard();
+    readScoreboard();
 });
 
 $(document).on('click', '.fa-question-circle', function() {
@@ -264,16 +264,14 @@ function populateBoard($board) {
 }
 
 function readScoreboard() {
-    return new Promise(resolve => {
-        $.ajax({
-            type: "GET",
-            url: "https://prod-56.westus.logic.azure.com:443/workflows/7534300353cb48ad892f6741046aeab8/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=JS-U_mvyGe_-PXwesvCPE7DA0oASww0h6h7D1RXM47Q",
-            success: function(data) {
-                scoreboard = data;
-                populateScoreboard();
-                resolve();
-            }
-        });
+    $.ajax({
+        type: "GET",
+        url: "https://prod-56.westus.logic.azure.com:443/workflows/7534300353cb48ad892f6741046aeab8/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=JS-U_mvyGe_-PXwesvCPE7DA0oASww0h6h7D1RXM47Q",
+        success: function(data) {
+            scoreboard = data;
+            populateScoreboard();
+            resolve();
+        }
     });
 }
 
@@ -293,6 +291,7 @@ function populateScoreboard() {
         let guesses = placement.WordsGuesses;
         $('#eg-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td>${word}</td><td style="text-align:center;">${guesses}</td></tr>`);
     }
+    $('.scoreboard-loading-wheel').hide();
 }
 
 function submitGamePlay(player) {
