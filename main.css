@@ -53,6 +53,7 @@
     border-radius: 10px;
 }
 .answer-group .tile { border-color: #6aaa64; }
+.view-definition { display: none; }
 .keyboard {
     /*height: 260px;*/
     width: 500px;
