@@ -5,7 +5,7 @@ let modes = {
                     'Instructions': `<b>Narrowing Down the Wordlist:</b> Begin by making a series of guesses. Each accepted guess will filter down the list.<br>
                                     <b>Letter Grouping Restriction:</b> No subsequent guesses can contain two or more letters that appear together in a previous guess.<br>
                                     <ul><li><i>Example:</i> If your first guess is "Water", you cannot guess "Peach" since the letters "E" and "A" are in "Water".</li></ul>
-                                    <b>Word Selection:</b> Once the word list has been narrowed down to 500 words or fewer, the final word will be chosen.<br>
+                                    <b>Word Selection:</b> Once the word list has been narrowed down to 100 words or fewer, the final word will be chosen.<br>
                                     <b>Guess Feedback:</b> After the word is chosen:<br>
                                     <ul>
                                         <li><b>Green tiles</b> indicate the correct letter in the correct position.</li>
@@ -181,13 +181,13 @@ async function initialize() {
     gameStatus = 0;
     
     await retrieveWordLists();
-    words = gameMode === 1 ? words_all : wordlist;
+    words = wordlist;
     wordCount = words.length;
 
     switch(gameMode) {
         case 1: // snare trap
             $('.bar').css('width', '100%');
-            $('.bar-marker').css('left', `${500/wordCount*100}%`).css('opacity', 1);
+            $('.bar-marker').css('left', `${100/wordCount*100}%`).css('opacity', 1);
             $('.progress-msg').text(`${wordCount} / ${wordCount} words`);
             break;
         case 2: // elusive goose
@@ -209,12 +209,6 @@ async function initialize() {
 async function setGameMode(mode) {
     gameMode = mode;
     await initialize();
-    //words = gameMode === 1 ? words_all : wordlist;
-    //wordCount = words.length;
-
-    //$('#mode-btn').text(modes[gameMode].Name).css('opacity', 1);
-    //$('#instructions-dialog h3').html(modes[gameMode].Name);
-    //$('#instructions-dialog p').html(modes[gameMode].Instructions);
 }
 
 function endGame() {
