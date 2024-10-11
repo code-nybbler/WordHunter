@@ -119,7 +119,7 @@ $(document).on('click', '#scoreboard-btn', async function() {
     readScoreboard();
 });
 
-$(document).on('click', '.fa-question-circle', function() {
+$(document).on('click', '.view-instructions', function() {
     $('.menu').removeClass('show');
     $('#instructions-dialog').addClass('show');
 });
