@@ -134,10 +134,12 @@ $(document).on('click', '.view-definition', async function() {
     $('#definition-dialog').addClass('show');
     
     $('.definition-loading-wheel').show();
-    let definition = await getDefinition(term);
+    let result = await getDefinition(term);
     $('.definition-loading-wheel').hide();
-    for (let d = 0; d < definition.length; d++) {
-        $('#definition-dialog ol').html(`<li>${definition[d]}</li>`)
+    
+    $('#definition-dialog h4').html(`${term.toLowerCase()} (${result.stems.join('/')})`);
+    for (let d = 0; d < result.definitions.length; d++) {
+        $('#definition-dialog ol').html(`<li>${result.definitions[d]}</li>`)
     }
 });
 
@@ -512,7 +514,7 @@ function getDefinition(term) {
                 req.onreadystatechange = null;
                 if (this.status === 200) {
                     let result = JSON.parse(this.response);
-                    resolve(result.definitions);
+                    resolve(result);
                 }
             }
         };
