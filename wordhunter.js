@@ -505,7 +505,7 @@ function getDefinition(term) {
                 req.onreadystatechange = null;
                 if (this.status === 200) {
                     let result = JSON.parse(this.response);
-                    resolve(result);
+                    resolve(result.definitions);
                 }
             }
         };
