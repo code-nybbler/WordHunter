@@ -137,7 +137,7 @@ $(document).on('click', '.view-definition', async function() {
     let result = await getDefinition(term);
     $('.definition-loading-wheel').hide();
     
-    $('#definition-dialog h4').html(`${term.toLowerCase()} (${result.stems.join('/')})`);
+    $('#definition-dialog p').text(`Stems: ${result.stems.join(', ')}`);
     for (let d = 0; d < result.definitions.length; d++) {
         $('#definition-dialog ol').html(`<li>${result.definitions[d]}</li>`)
     }
