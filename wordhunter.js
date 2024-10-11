@@ -2,9 +2,9 @@ let characters = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', '
 let modes = {
                 '1': {
                     'Name': 'Snare Trap',
-                    'Instructions': `<b>Narrowing Down the Wordlist:</b> Begin by making a series of guesses from the available 5-letter word list. Each guess should help filter down the word list.<br>
+                    'Instructions': `<b>Narrowing Down the Wordlist:</b> Begin by making a series of guesses. Each accepted guess will filter down the list.<br>
                                     <b>Letter Grouping Restriction:</b> No subsequent guesses can contain two or more letters that appear together in a previous guess.<br>
-                                    <ul><li><i>Example:</i> If your first guess is "Water", a later guess like "Wrist" is not allowed since the letters "W", "R", and "T" are grouped together in "Water."</li></ul>
+                                    <ul><li><i>Example:</i> If your first guess is "Water", you cannot guess "Peach" since the letters "E" and "A" are in "Water".</li></ul>
                                     <b>Word Selection:</b> Once the word list has been narrowed down to 500 words or fewer, the final word will be chosen.<br>
                                     <b>Guess Feedback:</b> After the word is chosen:<br>
                                     <ul>
@@ -141,8 +141,10 @@ $(document).on('click', '.keyboard-key', function() {
             $('#reset-dialog').addClass('show');
             break;
         case 'giveup': // give up
-            $('.menu').removeClass('show');
-            $('#lose-dialog').addClass('show');
+            if (gameStatus === 0) {
+                $('.menu').removeClass('show');
+                $('#lose-dialog').addClass('show');
+            }
             break;
         default: // character
             if (($('.editable-tile').length === 0 || $('.empty-tile').length % 5 !== 0) && gameStatus === 0) {
@@ -185,7 +187,7 @@ async function initialize() {
     switch(gameMode) {
         case 1: // snare trap
             $('.bar').css('width', '100%');
-            $('.bar-marker').css('left', `${100/wordCount*100}%`).css('opacity', 1);
+            $('.bar-marker').css('left', `${500/wordCount*100}%`).css('opacity', 1);
             $('.progress-msg').text(`${wordCount} / ${wordCount} words`);
             break;
         case 2: // elusive goose
@@ -197,21 +199,25 @@ async function initialize() {
             break;
         default: break;
     }
+    
+    $('#mode-btn').text(modes[gameMode].Name).css('opacity', 1);
+    $('#instructions-dialog h3').html(modes[gameMode].Name);
+    $('#instructions-dialog p').html(modes[gameMode].Instructions);
     initializeNewBoard();
 }
 
 async function setGameMode(mode) {
     gameMode = mode;
     await initialize();
-    words = gameMode === 1 ? words_all : wordlist;
-    wordCount = words.length;
+    //words = gameMode === 1 ? words_all : wordlist;
+    //wordCount = words.length;
 
-    $('#mode-btn').text(modes[gameMode].Name).css('opacity', 1);
-    $('#instructions-dialog h3').html(modes[gameMode].Name);
-    $('#instructions-dialog p').html(modes[gameMode].Instructions);
+    //$('#mode-btn').text(modes[gameMode].Name).css('opacity', 1);
+    //$('#instructions-dialog h3').html(modes[gameMode].Name);
+    //$('#instructions-dialog p').html(modes[gameMode].Instructions);
 }
 
-function endGame() { // -1 : lose, 0 : active, 1 : win
+function endGame() {
     if (answers.length > 0 && guesses_all.length > 0) {
         $('.answer-group').each(function(index) {
             let answerArr = answers[index].word.split('');            
@@ -249,13 +255,13 @@ function initializeNewBoard() {
 }
 
 function populateBoard($board) {
-    let rows = gameMode === 2 ? 3 : 6;
+    let rows = gameMode === 2 ? 3 : 1;
     for (let g = 0; g < rows; g++) {
         let $group = $(`<div class="group"></div>`);
         for (let t = 0; t < 5; t++) $group.append(`<div class="tile empty-tile ${g === 0 ? 'active-tile' : ''}" data-index="${t+1}"></div>`);
         $board.append($group);
     }
-
+debugger;
     if (gameMode === 1 && guesses_all.length === 0) {
         let rand_char = characters[Math.floor(Math.random() * 25)];
         $('.active-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile').addClass('starter-tile');
