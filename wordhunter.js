@@ -99,11 +99,7 @@ $(document).on('click', '#player-dialog .player-submit-btn', async function() {
         }
 
         await submitGamePlay(gamePlay);
-        $('.menu').removeClass('show');
-        $('#scoreboard').addClass('show');
-        readScoreboard();
-    } else {
-        // handle empty input
+        showScoreboard();
     }
     endGame();
 });
@@ -114,10 +110,15 @@ $(document).on('click', '#player-dialog .player-skip-btn', function() {
 });
 
 $(document).on('click', '#scoreboard-btn', async function() {
+    showScoreboard();
+});
+
+function showScoreboard() {
     $('.menu').removeClass('show');
     $('#scoreboard').addClass('show');
+    $('.scoreboard-loading-wheel').show();
     readScoreboard();
-});
+}
 
 $(document).on('click', '.view-instructions', function() {
     $('.menu').removeClass('show');
@@ -134,15 +135,19 @@ $(document).on('click', '.view-definition', async function() {
     $('#definition-dialog p').text('');
     $('#definition-dialog ol').empty();
 
-    $('#definition-dialog').addClass('show');    
+    $('#definition-dialog').addClass('show');
     $('.definition-loading-wheel').show();
-    let result = await getDefinition(term);
+    let results = await getDefinition(term);
     $('.definition-loading-wheel').hide();
     
     $('#definition-dialog h4').text(term.toLowerCase());
-    $('#definition-dialog p').text(result.stems.join(', '));
-    for (let d = 0; d < result.definitions.length; d++) {
-        $('#definition-dialog ol').append(`<li>${result.definitions[d]}</li>`)
+    for (let r = 0; r < results.length; r++) {
+        let result = results[r];
+        let stems = result.stems;
+        let definitions = result.definitions;
+        $('#definition-dialog').append(`<p>${result.id} (${result.fl})</p>`);
+        $('#definition-dialog').append(`<span>${stems.join(', ')}</span>`);
+        $('#definition-dialog').append(`<ol><li>${definitions.join('</li>')}</li></ol>`);
     }
 });
 
@@ -517,7 +522,7 @@ function getDefinition(term) {
                 req.onreadystatechange = null;
                 if (this.status === 200) {
                     let result = JSON.parse(this.response);
-                    resolve(result);
+                    resolve(result.def);
                 }
             }
         };
