@@ -130,16 +130,19 @@ $(document).on('click', '.view-definition', async function() {
         term += $(this).data('letter');
     });
 
-    $('#definition-dialog h4').text(term.toLowerCase());
-    $('#definition-dialog').addClass('show');
-    
+    $('#definition-dialog h4').text('');
+    $('#definition-dialog p').text('');
+    $('#definition-dialog ol').empty();
+
+    $('#definition-dialog').addClass('show');    
     $('.definition-loading-wheel').show();
     let result = await getDefinition(term);
     $('.definition-loading-wheel').hide();
     
-    $('#definition-dialog p').text(`Stems: ${result.stems.join(', ')}`);
+    $('#definition-dialog h4').text(term.toLowerCase());
+    $('#definition-dialog p').text(result.stems.join(', '));
     for (let d = 0; d < result.definitions.length; d++) {
-        $('#definition-dialog ol').html(`<li>${result.definitions[d]}</li>`)
+        $('#definition-dialog ol').append(`<li>${result.definitions[d]}</li>`)
     }
 });
 
