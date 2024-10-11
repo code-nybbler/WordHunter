@@ -130,8 +130,7 @@ $(document).on('click', '.view-definition', async function() {
         term += $(this).data('letter');
     });
     let definition = await getDefinition(term);
-    console.log(definition);
-    $('#definition-dialog').text(definition.join('<br>')).addClass('show');
+    $('#definition-dialog p').html(definition.join('<br>')).addClass('show');
 });
 
 $(document).on('click', '.keyboard-key', function() {
