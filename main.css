@@ -137,6 +137,7 @@
     vertical-align: top;
     padding: 0 10px 0 10px;
 }
+.definition-loading-wheel,
 .scoreboard-loading-wheel {
     height: 50px;
     width: 50px;

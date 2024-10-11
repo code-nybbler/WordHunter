@@ -129,9 +129,16 @@ $(document).on('click', '.view-definition', async function() {
     $(this).siblings('.answer-group').find('.tile').each(function() {
         term += $(this).data('letter');
     });
-    let definition = await getDefinition(term);
-    $('#definition-dialog p').html(definition.join('<br>'))
+
+    $('#definition-dialog h4').text(term.toLowerCase());
     $('#definition-dialog').addClass('show');
+    
+    $('.definition-loading-wheel').show();
+    let definition = await getDefinition(term);
+    $('.definition-loading-wheel').hide();
+    for (let d = 0; d < definition.length; d++) {
+        $('#definition-dialog ol').html(`<li>${definition[d]}</li>`)
+    }
 });
 
 $(document).on('click', '.keyboard-key', function() {
