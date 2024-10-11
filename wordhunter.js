@@ -113,13 +113,6 @@ $(document).on('click', '#scoreboard-btn', async function() {
     showScoreboard();
 });
 
-function showScoreboard() {
-    $('.menu').removeClass('show');
-    $('#scoreboard').addClass('show');
-    $('.scoreboard-loading-wheel').show();
-    readScoreboard();
-}
-
 $(document).on('click', '.view-instructions', function() {
     $('.menu').removeClass('show');
     $('#instructions-dialog').addClass('show');
@@ -131,17 +124,13 @@ $(document).on('click', '.view-definition', async function() {
         term += $(this).data('letter');
     });
 
-    $('#definition-dialog h4').text('');
-    $('#definition-dialog p').text('');
-    $('#definition-dialog span').text('');
-    $('#definition-dialog ol').empty();
-
+    $('.definition-container').empty();
     $('#definition-dialog').addClass('show');
     $('.definition-loading-wheel').show();
     let results = await getDefinition(term);
     $('.definition-loading-wheel').hide();
     
-    $('#definition-dialog h4').text(term.toLowerCase());
+    $('.definition-container').append(`<h4>${term.toLowerCase()}</h4>`);
     for (let r = 0; r < results.length; r++) {
         let result = results[r];
         let stems = result.stems;
@@ -322,6 +311,13 @@ function populateScoreboard() {
         $('#eg-scoreboard table tbody').append(`<tr><td>${player.Name}</td><td>${word}</td><td style="text-align:center;">${guesses}</td></tr>`);
     }
     $('.scoreboard-loading-wheel').hide();
+}
+
+function showScoreboard() {
+    $('.menu').removeClass('show');
+    $('#scoreboard').addClass('show');
+    $('.scoreboard-loading-wheel').show();
+    readScoreboard();
 }
 
 function submitGamePlay(player) {
