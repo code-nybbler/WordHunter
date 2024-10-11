@@ -133,6 +133,7 @@ $(document).on('click', '.view-definition', async function() {
 
     $('#definition-dialog h4').text('');
     $('#definition-dialog p').text('');
+    $('#definition-dialog span').text('');
     $('#definition-dialog ol').empty();
 
     $('#definition-dialog').addClass('show');
@@ -142,11 +143,11 @@ $(document).on('click', '.view-definition', async function() {
     
     $('#definition-dialog h4').text(term.toLowerCase());
     for (let r = 0; r < results.length; r++) {
-        let result = results[r];
+        let results = results[r];
         let stems = result.stems;
         let definitions = result.definitions;
-        $('#definition-dialog').append(`<p>${result.id} (${result.fl})</p>`);
-        $('#definition-dialog').append(`<span>${stems.join(', ')}</span>`);
+        $('#definition-dialog').append(`<span style="font-weight:600">${result.id} (${result.fl})</span><br>`);
+        $('#definition-dialog').append(`<span><i>${stems.join(', ')}</i></span>`);
         $('#definition-dialog').append(`<ol><li>${definitions.join('</li>')}</li></ol>`);
     }
 });
