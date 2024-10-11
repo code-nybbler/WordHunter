@@ -124,15 +124,14 @@ $(document).on('click', '.view-instructions', function() {
     $('#instructions-dialog').addClass('show');
 });
 
-$(document).on('click', '.view-definition', function() {
-    debugger;
+$(document).on('click', '.view-definition', async function() {
     let term = '';
     $(this).siblings('.answer-group').find('.tile').each(function() {
         term += $(this).data('letter');
     });
-
-    console.log(term);
-    getDefinition(term);
+    let definition = await getDefinition(term);
+    console.log(definition);
+    $('#definition-dialog').text(definition.join('<br>')).show();
 });
 
 $(document).on('click', '.keyboard-key', function() {
