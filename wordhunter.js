@@ -124,7 +124,7 @@ $(document).on('click', '.view-instructions', function() {
     $('#instructions-dialog').addClass('show');
 });
 
-$(document).on('click', 'view-definition', function() {
+$(document).on('click', '.view-definition', function() {
     debugger;
     let term = '';
     $(this).siblings('.answer-group').find('.tile').each(function() {
