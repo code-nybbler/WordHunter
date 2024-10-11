@@ -143,7 +143,7 @@ $(document).on('click', '.view-definition', async function() {
     
     $('#definition-dialog h4').text(term.toLowerCase());
     for (let r = 0; r < results.length; r++) {
-        let results = results[r];
+        let result = results[r];
         let stems = result.stems;
         let definitions = result.definitions;
         $('#definition-dialog').append(`<span style="font-weight:600">${result.id} (${result.fl})</span><br>`);
