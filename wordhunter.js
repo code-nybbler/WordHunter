@@ -124,6 +124,16 @@ $(document).on('click', '.fa-question-circle', function() {
     $('#instructions-dialog').addClass('show');
 });
 
+$(document).on('click', 'view-definition', function() {
+    let term = '';
+    $(this).siblings('.answer-group').find('.tile').each(function() {
+        term += $(this).data('letter');
+    });
+
+    console.log(term);
+    getDefinition(term);
+});
+
 $(document).on('click', '.keyboard-key', function() {
     let key = $(this).data('key');
     switch (key) {
@@ -255,14 +265,13 @@ function populateBoard($board) {
         for (let t = 0; t < 5; t++) $group.append(`<div class="tile empty-tile ${g === 0 ? 'active-tile' : ''}" data-index="${t+1}"></div>`);
         $board.append($group);
     }
-debugger;
     if (gameMode === 1 && guesses_all.length === 0) {
         let rand_char = characters[Math.floor(Math.random() * 25)];
         $('.active-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile').addClass('starter-tile');
     } else {
         let $group = $(`<div class="group answer-group"></div>`);
         for (let t = 0; t < 5; t++) $group.append(`<div class="tile" data-index="${t+1}"></div>`);
-        $board.append($group);
+        $board.append($group).append('<i class="fa fa-question-circle view-definition"></i>');
     }
 }
 
@@ -482,4 +491,23 @@ function getCommonCount(word1, guessedWord) {
 function showToast(text) {
     $('#toast-msg').text(text).addClass('show');
     setTimeout(function(){ $('#toast-msg').removeClass('show'); }, 3000);
+}
+
+function getDefinition(term) {
+    return new Promise(resolve => {
+        let flowURL = 'https://prod-36.westus.logic.azure.com:443/workflows/1b3523c694f3450bbedc70d5a6a0017b/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=mFxXtjnlu0AQ2-BZ66dNgFkoQTRTEEte36VvS7pEsxE';
+        let req = new XMLHttpRequest();
+        req.open("POST", flowURL, true);
+        req.setRequestHeader("Content-Type", "application/json");
+        req.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                req.onreadystatechange = null;
+                if (this.status === 200) {
+                    let result = JSON.parse(this.response);
+                    resolve(result);
+                }
+            }
+        };
+        req.send(JSON.stringify({ 'term': term }));
+    });
 }
