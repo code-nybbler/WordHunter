@@ -131,7 +131,7 @@ $(document).on('click', '.view-definition', async function() {
     });
     let definition = await getDefinition(term);
     console.log(definition);
-    $('#definition-dialog').text(definition.join('<br>')).show();
+    $('#definition-dialog').text(definition.join('<br>')).addClass('show');
 });
 
 $(document).on('click', '.keyboard-key', function() {
