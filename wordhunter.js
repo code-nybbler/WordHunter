@@ -135,9 +135,9 @@ $(document).on('click', '.view-definition', async function() {
         let result = results[r];
         let stems = result.stems;
         let definitions = result.definitions;
-        $('#definition-dialog').append(`<span style="font-weight:600">${result.id} (${result.fl})</span><br>`);
-        $('#definition-dialog').append(`<span><i>${stems.join(', ')}</i></span>`);
-        $('#definition-dialog').append(`<ol><li>${definitions.join('</li>')}</li></ol>`);
+        $('.definition-container').append(`<span style="font-weight:600">${result.id} (${result.fl})</span><br>`);
+        $('.definition-container').append(`<span><i>${stems.join(', ')}</i></span>`);
+        $('.definition-container').append(`<ol><li>${definitions.join('</li>')}</li></ol>`);
     }
 });
 
