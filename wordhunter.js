@@ -125,6 +125,7 @@ $(document).on('click', '.view-instructions', function() {
 });
 
 $(document).on('click', 'view-definition', function() {
+    debugger;
     let term = '';
     $(this).siblings('.answer-group').find('.tile').each(function() {
         term += $(this).data('letter');
@@ -230,6 +231,7 @@ function endGame() {
             });
         });
         $('.answer-group').css('display', 'grid');
+        $('.view-definition').css('display', 'block');
     }
 }
 
