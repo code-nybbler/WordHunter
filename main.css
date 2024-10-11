@@ -122,7 +122,8 @@
     opacity: 0;
     transition: visibility 0.3s linear, opacity 0.3s linear;
 }
-#scoreboard { min-height: 400px; }
+#scoreboard,
+#definition-dialog { min-height: 400px; top: 50%; }
 .menu.show {
     visibility: visible;
     opacity: 1;
