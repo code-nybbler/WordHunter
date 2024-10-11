@@ -148,12 +148,20 @@
     vertical-align: top;
     padding: 0 10px 0 10px;
 }
-.definition-loading-wheel,
+.definition-loading-wheel {
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: center / 100% no-repeat url("./Spinner.gif");
+}
 .scoreboard-loading-wheel {
     height: 50px;
     width: 50px;
     position: absolute;
-    top: 70%;
+    top: 72%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: center / 100% no-repeat url("./Spinner.gif");
