@@ -1,4 +1,7 @@
 let characters = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ];
+let words, wordlist, words_all, scoreboard,
+answers, answer, guesses, guesses_all,
+gameMode, wordCount, gameStatus, stThreshold = 500;
 let modes = {
                 1: {
                     'Name': 'Snare Trap',
@@ -30,9 +33,6 @@ let modes = {
                                     <i>Note:</i> Letters can be used more than once in the same guess.`
                 }
             };
-let words, wordlist, words_all, scoreboard,
-answers, answer, guesses, guesses_all,
-gameMode, wordCount, gameStatus, stThreshold = 500;
 
 $(document).ready(function() {
     $('#mode-menu').addClass('show');
