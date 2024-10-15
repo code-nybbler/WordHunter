@@ -54,9 +54,9 @@
 .answer-group .tile { border-color: #6aaa64; }
 .view-definition {
     display: none;
-    bottom: 40px;
+    bottom: 32px;
     position: absolute;
-    right: -30px;
+    right: -10px;
     cursor: pointer;
 }
 #definition-dialog h4 { color: #c9b458; }
@@ -260,4 +260,5 @@
     .keyboard { width: 100%; margin-bottom: 0; }
     .keyboard-key { height: 125px; font-size: 2.25em; }
     .keyboard-key-large { font-size: 20px; }
+    .view-definition { bottom: 40px; right: -30px; }
 }
