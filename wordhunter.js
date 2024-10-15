@@ -201,6 +201,8 @@ async function initialize() {
     words = wordlist;
     wordCount = words.length;
 
+    gameMode = Math.floor(gameMode); // round down to nearest whole number: 1.5 -> 1
+
     switch(gameMode) {
         case 1: // snare trap
             $('.bar').css('width', '100%');
@@ -231,10 +233,12 @@ async function setGameMode(mode) {
 function endGame() {
     if (answers.length > 0 && guesses_all.length > 0) {
         $('.answer-group').each(function(index) {
-            let answerArr = answers[index].word.split('');            
-            $(this).find('.tile').each(function(idx) {
-                $(this).data('letter', answerArr[idx]).text(answerArr[idx]);
-            });
+            if (answers.length > index) {
+                let answerArr = answers[index].word.split('');
+                $(this).find('.tile').each(function(idx) {
+                    $(this).data('letter', answerArr[idx]).text(answerArr[idx]);
+                });
+            }
         });
         $('.answer-group').css('display', 'grid');
         $('.view-definition').css('display', 'block');
