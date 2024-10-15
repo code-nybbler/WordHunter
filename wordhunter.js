@@ -458,7 +458,7 @@ function processGuessEG($tiles, guessedWord) {
         showToast(`You won after ${guesses_all.length} guesses!`);
         $('#player-dialog').addClass('show');
         $('.bar').css('width', `${(Object.keys(presentLetters).length + Object.keys(correctLetters).length*2)/10*100}%`);
-    } else if ($('.empty-tile').length < 30 && $('.empty-tile').length % 15 === 0 /*&& gameMode === 2*/) { // true every 3 guesses        
+    } else if ($('.empty-tile').length < 30 && $('.empty-tile').length % 15 === 0) { // true every 3 guesses        
         // filter wordlist
         words = words.map(word => ({ ...word, score: getCommonCount(word, Object.values(correctLetters).join('')) })).filter(word => word.score >= Object.keys(correctLetters).length && word !== answer.word); // choose new word with same 'correct' letters, but not necessarily with the same 'present' letters
         // choose new word
@@ -476,10 +476,7 @@ function processGuessEG($tiles, guessedWord) {
             $('.bar').css('width', `${Object.keys(correctLetters).length > 0 ? Object.keys(correctLetters).length/10*100 : 0}%`);
             initializeNewBoard();
         } else $('.bar').css('width', `${(Object.keys(presentLetters).length + Object.keys(correctLetters).length*2)/10*100}%`);
-    } /*else if (gameMode === 1.5 && $('.empty-tile').length === 0) { // final stage of Snare Trap and board is full
-        initializeNewBoard();
-        $('.bar').css('width', `${(Object.keys(presentLetters).length + Object.keys(correctLetters).length*2)/10*100}%`);
-    }*/ else $('.bar').css('width', `${(Object.keys(presentLetters).length + Object.keys(correctLetters).length*2)/10*100}%`);
+    } else $('.bar').css('width', `${(Object.keys(presentLetters).length + Object.keys(correctLetters).length*2)/10*100}%`);
 }
 
 function getWord() {
