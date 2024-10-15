@@ -5,7 +5,7 @@ let modes = {
                     'Instructions': `<b>Narrowing Down the Wordlist:</b> Begin by making a series of guesses. Each accepted guess will filter down the list.<br>
                                     <b>Letter Grouping Restriction:</b> No subsequent guesses can contain two or more letters that appear together in a previous guess.<br>
                                     <ul><li><i>Example:</i> If your first guess is "Water", you cannot guess "Peach" since the letters "E" and "A" are in "Water".</li></ul>
-                                    <b>Word Selection:</b> Once the word list has been narrowed down to 500 words or fewer, the final word will be chosen.<br>
+                                    <b>Word Selection:</b> Once the word list has been narrowed down to ${stThreshold} words or fewer, the final word will be chosen.<br>
                                     <b>Guess Feedback:</b> After the word is chosen:<br>
                                     <ul>
                                         <li><b>Green tiles</b> indicate the correct letter in the correct position.</li>
@@ -32,7 +32,7 @@ let modes = {
             };
 let words, wordlist, words_all, scoreboard,
 answers, answer, guesses, guesses_all,
-gameMode, wordCount, gameStatus;
+gameMode, wordCount, gameStatus, stThreshold = 500;
 
 $(document).ready(function() {
     $('#mode-menu').addClass('show');
@@ -206,7 +206,7 @@ async function initialize() {
     switch(gameMode) {
         case 1: // snare trap
             $('.bar').css('width', '100%');
-            $('.bar-marker').css('left', `${500/wordCount*100}%`).css('opacity', 1);
+            $('.bar-marker').css('left', `${stThreshold/wordCount*100}%`).css('opacity', 1);
             $('.progress-msg').text(`${wordCount} / ${wordCount} words`);
             break;
         case 2: // elusive goose
@@ -389,7 +389,7 @@ function processGuessST(guessedWord) {
     words = words.map(word => ({ ...word, score: getCommonCount(word, guessedWord) })).filter(word => word.score < 2);
     $('.progress-msg').text(`${words.length} / ${wordCount} words`);
 
-    if (words.length <= 500) {
+    if (words.length <= stThreshold) {
         // choose new word
         answer = getWord();        
         answers.push(answer);
