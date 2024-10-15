@@ -161,7 +161,7 @@
     height: 50px;
     width: 50px;
     position: absolute;
-    top: 74%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: center / 100% no-repeat url("./Spinner.gif");
