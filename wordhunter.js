@@ -392,6 +392,7 @@ function processGuessST(guessedWord) {
         // send toast
         showToast(`A word has been chosen!`);
         gameMode = 1.5;
+        $('.bar').css('width', '0');
         $('.bar-marker').css('opacity', 0);
         $('.progress-msg').text('');
     } else $('.bar').css('width', `${words.length/wordCount*100}%`);
