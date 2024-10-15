@@ -1,6 +1,6 @@
 let characters = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ];
 let modes = {
-                '1': {
+                1: {
                     'Name': 'Snare Trap',
                     'Instructions': `<b>Narrowing Down the Wordlist:</b> Begin by making a series of guesses. Each accepted guess will filter down the list.<br>
                                     <b>Letter Grouping Restriction:</b> No subsequent guesses can contain two or more letters that appear together in a previous guess.<br>
@@ -13,7 +13,7 @@ let modes = {
                                         <li><b>Grey tiles</b> indicate the letter is not in the word.</li>
                                     </ul>`
                 },
-                '2': {
+                2: {
                     'Name': 'Elusive Goose',
                     'Instructions': `<b>Guess:</b> Start by guessing a 5-letter word.<br>
                                     After each guess:<br>
@@ -106,7 +106,7 @@ $(document).on('click', '#player-dialog .player-submit-btn', async function() {
 
 $(document).on('click', '#player-dialog .player-skip-btn', function() {
     $('#player-dialog').removeClass('show');
-    endGame(1);
+    endGame();
 });
 
 $(document).on('click', '#scoreboard-btn', async function() {
@@ -224,7 +224,7 @@ async function initialize() {
 }
 
 async function setGameMode(mode) {
-    gameMode = mode;
+    gameMode = parseInt(mode);
     await initialize();
 }
 
