@@ -280,7 +280,7 @@ function populateBoard($board) {
     if (gameMode === 1 && guesses_all.length === 0) {
         let rand_char = characters[Math.floor(Math.random() * 25)];
         $('.active-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile').addClass('starter-tile');
-    } else {
+    } else if ([1.5, 2].includes(gameMode)) {
         let $group = $(`<div class="group answer-group"></div>`);
         for (let t = 0; t < 5; t++) $group.append(`<div class="tile" data-index="${t+1}"></div>`);
         $board.append($group).append('<i class="fa fa-question-circle view-definition"></i>');
