@@ -82,6 +82,7 @@ $(document).on('click', '#lose-dialog .giveup-confirm-btn', function() {
     if (gameStatus === 0) {
         gameStatus = -1;
         $('#lose-dialog').removeClass('show');
+        $('.empty-tile').data('letter', '☹').text('☹');
         endGame();
     }
 });
