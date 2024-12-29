@@ -31,6 +31,12 @@ let modes = {
                                         <li>The new word will always include any green letters that have been guessed correctly so far.</li>
                                     </ul>
                                     <i>Note:</i> Letters can be used more than once in the same guess.`
+                },
+                3: {
+                    'Name': 'Trip Wire',
+                    'Instructions': `<b>Trap the Computer:</b> Begin by making a series of guesses. Each accepted guess will filter down the list.<br>
+                                    <b>Letter Grouping Restriction:</b> No subsequent guesses can contain two or more letters that appear together in a previous guess.<br>
+                                    <ul><li><i>Example:</i> If your first guess is "Water", you cannot guess "Peach" since the letters "E" and "A" are in "Water".</li></ul>`
                 }
             };
 
@@ -217,6 +223,14 @@ async function initialize() {
             $('.bar-marker').css('opacity', 0);
             $('.progress-msg').text('');
             break;
+        case 3: // trip wire
+            answer = getWord();
+            answers.push(answer);
+            stThreshold = 0;
+            $('.bar').css('width', '100%');
+            $('.bar-marker').css('opacity', 0);
+            $('.progress-msg').text(`${wordCount} / ${wordCount} words`);
+            break;
         default: break;
     }
     
@@ -278,7 +292,7 @@ function populateBoard($board) {
         for (let t = 0; t < 5; t++) $group.append(`<div class="tile empty-tile ${g === 0 ? 'active-tile' : ''}" data-index="${t+1}"></div>`);
         $board.append($group);
     }
-    if (gameMode === 1 && guesses_all.length === 0) {
+    if (gameMode % 2 > 0 && guesses_all.length === 0) {
         let rand_char = characters[Math.floor(Math.random() * 25)];
         $('.active-tile').first().data('letter', rand_char).text(rand_char).removeClass('empty-tile').addClass('filled-tile').addClass('starter-tile');
     } else if ([1.5, 2].includes(gameMode)) {
@@ -355,7 +369,7 @@ function submitGuess($tiles) {
     } else if (gameMode !== 1 && words_all.find(word => word.word === guessedWord) === undefined) {
         showToast('Word is not in the wordlist!');
         $tiles.each(function() { $(this).addClass('editable-tile'); });        
-    } else if (gameMode === 1 && words.find(word => word.word === guessedWord) === undefined) {
+    } else if (gameMode % 2 > 0 && words.find(word => word.word === guessedWord) === undefined) {
         showToast('Word is not in the wordlist!');
         $tiles.each(function() { if (!$(this).hasClass('starter-tile')) $(this).addClass('editable-tile'); });
     } else {
@@ -375,6 +389,7 @@ function processGuess($tiles, guessedWord) {
 
     switch(gameMode) {
         case 1: // snare trap
+        case 3: // trip wire
             processGuessST(guessedWord);
             break;
         case 1.5: // snare trap w/ answer chosen
